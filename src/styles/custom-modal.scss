@@ -1,0 +1,53 @@
+#addModal,
+#editModal,
+#unloginModal {
+    .modal-header {
+        padding: 1rem 0;
+
+        i {
+            color: var(--ford-gray-shadow);
+        }
+    }
+
+    .modal-title {
+        font-weight: bold;
+        color: var(--ford-gray-shadow);
+    }
+
+    .modal-content {
+        padding: 0 35px 15px;
+        border: none;
+        box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.21);
+    }
+
+    .modal-footer {
+        padding: 1rem 0;
+        border-top: none;
+    }
+
+    .modal-body {
+        padding: 1rem 0;
+
+        .form-group:not(:last-of-type) {
+            margin-bottom: 20px;
+        }
+    }
+
+    .unloginModal {
+        display: grid;
+        padding: 60px 30px;
+        grid-row-gap: 30px;
+        .modal-title {
+            text-align: center;
+        }
+        button {
+            justify-self: center;
+            width: max-content;
+        }
+    }
+}
+
+#login_place {
+    color: #4d616e;
+    font-weight: bold;
+}

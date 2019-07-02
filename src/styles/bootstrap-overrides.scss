@@ -1,0 +1,263 @@
+@import '~bootstrap/scss/bootstrap';
+
+//ul
+ul {
+    margin-bottom: 0;
+}
+
+// !ul
+
+// table
+.table th {
+    border-top: none;
+    font-weight: normal;
+    color: var(--ford-table-th);
+}
+
+.table thead th {
+    max-width: 200px;
+    border: none;
+    padding-left: 0;
+}
+
+.table.interactive thead th {
+    border-bottom: 1px solid #f3f3f3;
+}
+
+.table:not(.interactive) thead th {
+    &:first-of-type {
+        padding-left: 30px;
+    }
+}
+
+.table.interactive thead th:nth-of-type(2) {
+    padding-left: 30px;
+}
+
+table.table td {
+    position: relative;
+}
+
+// для обычной таблицы
+.table:not(.interactive) td {
+    min-width: 170px;
+    border-top: 1px solid #f3f3f3;
+    padding: 10px 40px 10px 0;
+    color: var(--ford-table-td);
+}
+
+.table.interactive td {
+    border-top: 1px solid #f3f3f3;
+    padding: 10px 0 0 14px;
+}
+
+.table:not(.interactive) td:first-of-type {
+    padding-left: 30px;
+}
+
+// для колонки с настройками
+
+.table.interactive td:not(:first-of-type) {
+    min-width: 170px;
+    border-top: 1px solid #f3f3f3;
+    padding: 10px 40px 10px 0;
+    color: var(--ford-table-td);
+}
+
+.table.interactive td:nth-of-type(2) {
+    padding-left: 20px;
+}
+
+// !table
+
+// forms
+.form-control {
+    color: #686d71;
+    border: 1px solid #ddd;
+}
+
+.form-control::-webkit-input-placeholder {
+    opacity: 0.7;
+}
+
+.form-control::-moz-placeholder {
+    opacity: 0.7;
+}
+
+.form-control::-ms-input-placeholder {
+    opacity: 0.7;
+}
+
+.form-control:-moz-placeholder {
+    opacity: 0.7;
+}
+
+.form-control:-ms-input-placeholder {
+    opacity: 0.7;
+}
+
+.form-control:focus {
+    border-color: #94a5b1;
+    box-shadow: 0 0 0 0.1rem rgb(148, 165, 177);
+}
+
+// !forms
+
+// label
+.col-form-label {
+    color: #373a3c;
+}
+
+.custom-control-label {
+    cursor: pointer;
+}
+
+// !label
+
+// form-group
+.form-group {
+    margin-bottom: 0;
+}
+
+// !form-group
+
+// pagination
+.pagination .page-item .page-link {
+    color: var(--ford-gray-shadow);
+    background-color: #f3f3f3;
+    border-color: #f3f3f3;
+    transition: 0.3s ease-in-out;
+    transition-property: background-color, border-color;
+
+    &:focus {
+        box-shadow: none;
+    }
+
+    &:hover {
+        background-color: #d3d3d3;
+        border-color: #d3d3d3;
+    }
+}
+
+.pagination .page-item.active .page-link {
+    background-color: var(--ford-orange);
+    border-color: var(--ford-orange);
+    color: #fff;
+    transition: 0.3s ease-in-out;
+    transition-property: background-color, border-color;
+
+    &:hover {
+        background-color: #ff9c29;
+        border-color: #ff9c29;
+    }
+}
+
+.pagination .page-item:not(.go-b) {
+    margin: 0 1px;
+}
+
+.pagination .go-b {
+    &:first-of-type {
+        margin-right: 1px;
+    }
+
+    &:last-of-type {
+        margin-left: 1px;
+    }
+}
+
+// !pagination
+
+// modal window
+.modal-md {
+    max-width: 688px;
+}
+
+.modal-backdrop {
+    background-color: transparent;
+}
+
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    .modal-backdrop {
+        background-color: #000;
+    }
+}
+
+// !modal window
+
+// custom buttons
+.btn-primary-ford-orange {
+    display: flex;
+    align-items: center;
+    border-radius: 20px;
+    background-color: var(--ford-orange);
+    color: #fff;
+    border-color: var(--ford-orange);
+    transition: 0.3s ease-in-out;
+    transition-property: background-color, border-color;
+
+    &:focus {
+        box-shadow: none;
+    }
+
+    &:hover {
+        background-color: #ff9c29;
+        border-color: #ff9c29;
+        color: #fff;
+    }
+
+    &:active {
+        background-color: #f98601;
+        border-color: #f98601;
+    }
+
+    i {
+        pointer-events: none;
+    }
+}
+
+.btn-secondary-ford-gray {
+    background-color: transparent;
+    border-color: transparent;
+    color: var(--ford-gray-shadow);
+
+    &:focus {
+        box-shadow: none;
+    }
+}
+
+// !custom buttons
+
+// text danger
+a.text-danger {
+    color: #f55f5f !important;
+
+    &:hover {
+        color: #f55f5f !important;
+    }
+}
+
+// !text danger
+
+// spinner-border
+.spinner-border {
+    width: 4rem;
+    height: 4rem;
+}
+
+// !spinner-border
+
+// custom-widht container
+@media (min-width: 1670px) {
+    .container {
+        max-width: 1640px;
+    }
+}
+
+@media (min-width: 1340px) and (max-width: 1669px) {
+    .container {
+        max-width: 1335px;
+    }
+}
+
+// !custom-widht container
