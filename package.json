@@ -40,35 +40,24 @@
         ],
         "rules": {
             "arrow-parens": "off",
+            "arrow-body-style": "off",
+            "consistent-return": "off",
+            "default-case": "off",
             "generator-star-spacing": "off",
             "import/extensions": "off",
             "import/no-extraneous-dependencies": "off",
             "import/no-unresolved": "off",
+            "import/no-cycle": "off",
             "implicit-arrow-linebreak": "off",
-            "indent": [
-                "error",
-                4,
-                {
-                    "SwitchCase": 1
-                }
-            ],
+            "indent": ["error", 2, {"SwitchCase": 1}],
             "linebreak-style": 0,
-            "max-len": [
-                "error",
-                {
-                    "code": 140
-                }
-            ],
+            "max-len": "off",
             "no-param-reassign": "off",
             "no-plusplus": "off",
-            "vue/component-name-in-template-casing": [
-                "error",
-                "kebab-case"
-            ],
-            "vue/html-indent": [
-                "error",
-                4
-            ],
+            "vue/component-name-in-template-casing": ["error", "kebab-case"],
+            "vue/html-indent": ["error", 2],
+            "vue/html-self-closing": "off",
+            "vue/return-in-computed-property": "off",
             "operator-linebreak": "off"
         },
         "parserOptions": {
