@@ -1,96 +1,100 @@
 .table__header::after {
-    right: -15px;
+  right: -15px;
 }
 
 .table {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 #addModal .form-group:not(:last-of-type) {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .invalid-feedback {
-    display: block;
+  display: block;
 }
 
 .table-wrapper {
-    .table-container,
-    .table-footer {
-        opacity: 1;
-        visibility: visible;
-    }
+  .table-container,
+  .table-footer {
+    opacity: 1;
+    visibility: visible;
+  }
 }
 
 .table-container {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 .disabled {
-    opacity: 0.65;
-    cursor: default;
-    pointer-events: none;
+  opacity: 0.65;
+  cursor: default;
+  pointer-events: none;
 }
 
 .table-state-block__preloader {
-    height: auto;
+  height: auto;
 }
 
 .table-state-block__preloader.spinner-fade-in {
-    visibility: visible;
-    opacity: 1;
+  visibility: visible;
+  opacity: 1;
 }
 
 $green-select: #62da97;
 
 .multiselect__tag {
-    background-color: $green-select;
+  background-color: $green-select;
 
-    &-icon {
-        &:hover {
-            background-color: darken($green-select, 13%);
-        }
-
-        &::after {
-            color: darken($green-select, 35%);
-        }
+  &-icon {
+    &:hover {
+      background-color: darken($green-select, 13%);
     }
+
+    &::after {
+      color: darken($green-select, 35%);
+    }
+  }
 }
 
 .multiselect__option--highlight {
-    background-color: $green-select;
+  background-color: $green-select;
 
-    &::after {
-        background-color: $green-select;
-    }
+  &::after {
+    background-color: $green-select;
+  }
 }
 
 $red-select: #f55f5f;
 
 .multiselect__option--selected.multiselect__option--highlight {
-    background-color: $red-select;
+  background-color: $red-select;
 
-    &::after {
-        background-color: $red-select;
-    }
+  &::after {
+    background-color: $red-select;
+  }
 }
 
 .deactivate-user {
-    cursor: default;
+  cursor: default;
 }
 
 .router-link-active:hover {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 .deep-menu__block__profile {
-    position: absolute !important;
+  position: absolute !important;
 }
 
 .central-billing__item {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .header__menu {
-    max-width: fit-content;
+  max-width: fit-content;
+}
+
+.breadcrumbs__link.active {
+  color: var(--ford-orange) !important;
 }

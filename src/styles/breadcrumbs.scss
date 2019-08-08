@@ -1,0 +1,63 @@
+.breadcrumbs {
+  display: inline-flex;
+  margin: 0 0 47px 0;
+  padding: 10px 33px 10px 25px;
+  background-color: #fcfcfc;
+
+  a {
+    display: flex;
+    align-items: center;
+    color: var(--ford-gray-shadow);
+    transition: color 0.2s ease-in-out;
+
+    &:hover {
+      text-decoration: none;
+      color: #707070;
+    }
+
+    &:active {
+      color: #2f424e;
+    }
+  }
+
+  &__link {
+    transition: color 0.2s ease-in-out;
+    margin-left: 50px;
+    position: relative;
+
+    i {
+      position: absolute;
+      left: -30px;
+      font-size: 15px;
+      pointer-events: none;
+      color: var(--ford-gray);
+    }
+
+    &.active {
+      color: var(--ford-orange);
+
+      &:hover {
+        color: #ff9c29;
+      }
+
+      &:active {
+        color: #f98601;
+      }
+    }
+  }
+
+  &__home {
+    i {
+      color: var(--ford-gray-shadow);
+      transition: color 0.2s ease-in-out;
+    }
+
+    &:hover i {
+      color: #707070;
+    }
+
+    &:active i {
+      color: #2f424e;
+    }
+  }
+}

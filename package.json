@@ -58,6 +58,7 @@
             "vue/html-indent": ["error", 2],
             "vue/html-self-closing": "off",
             "vue/return-in-computed-property": "off",
+            "vue/require-default-prop": "off",
             "operator-linebreak": "off"
         },
         "parserOptions": {

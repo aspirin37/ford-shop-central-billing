@@ -10,7 +10,7 @@
             >
               <router-link
                 class="header__logo__link"
-                to="user-list"
+                to="/"
               >
                 <img
                   class="header__logo__image"
@@ -111,14 +111,14 @@
                           {{ selectedSubCatalog.name }}
                         </span>
                         <div class="central-billing__deep__item__links-block">
-                          <a
+                          <router-link
                             v-for="(it, i) in selectedSubCatalog.collections"
                             :key="i"
                             class="central-billing__deep__item__link"
-                            href="javascript:void(0);"
+                            :to="{name: 'Collection', params: { alias: it.alias, id: it.guid }}"
                           >
                             {{ it.name }}
-                          </a>
+                          </router-link>
                         </div>
                       </div>
                     </div>
@@ -149,14 +149,14 @@
               >
                 <div class="deep-menu__block link">
                   <a
-                    href='javscript:void(0);'
+                    href="javscript:void(0);"
                     class="deep-menu__block__link svo"
                   >
                     <p class="deep-menu__block__link__title">SVO</p>
                     <p class="deep-menu__block__link__text">Система для формирования заказов с опциями</p>
                   </a>
                   <a
-                    href='javascript:void(0);'
+                    href="javascript:void(0);"
                     class="deep-menu__block__link central"
                   >
                     <p class="deep-menu__block__link__title">Central-Billing</p>
