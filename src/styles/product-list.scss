@@ -19,7 +19,6 @@
     display: grid;
     grid-template-columns: 243px 1fr;
     grid-column-gap: 21px;
-    grid-row-gap: 30px;
   }
 
   .filter-block {
@@ -107,6 +106,8 @@
   }
 
   .items-block {
+    margin-bottom: 30px;
+
     &__top {
       display: flex;
       justify-content: space-between;

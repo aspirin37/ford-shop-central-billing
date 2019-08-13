@@ -3,14 +3,14 @@
     <div class="header align-items-center">
       <div class="container">
         <div class="row">
-          <div class="col-2">
+          <div class="col d-flex flex-grow-0 align-items-center justify-content-start">
             <div
               class="header__logo"
               data-navigation
             >
               <router-link
                 class="header__logo__link"
-                to="/"
+                to="user-list"
               >
                 <img
                   class="header__logo__image"
@@ -19,8 +19,18 @@
                 >
               </router-link>
             </div>
+            <div
+              class="current-system"
+              data-navigation
+              menu-id="system"
+              @click="toggleMainMenu"
+            >
+              <div class="current-system__block cb">
+                CB
+              </div>
+            </div>
           </div>
-          <div class="col-8">
+          <div class="col">
             <div
               class="header__menu"
               data-navigation
@@ -128,12 +138,12 @@
               <div
                 v-show="shownSubMenuId === 'profile'"
                 menu-id="profile"
-                class="deep-menu__block deep-menu__block__profile"
+                class="deep-menu__block menu"
               >
-                <router-link to="profile">
+                <a href="/front-users/profile">
                   <i class="material-icons">account_circle</i>
                   Профиль
-                </router-link>
+                </a>
                 <a
                   class="text-danger"
                   href="javascript:void(0);"
@@ -149,7 +159,7 @@
               >
                 <div class="deep-menu__block link">
                   <a
-                    href="javscript:void(0);"
+                    href="/svo-orders"
                     class="deep-menu__block__link svo"
                   >
                     <p class="deep-menu__block__link__title">SVO</p>
@@ -157,10 +167,17 @@
                   </a>
                   <a
                     href="javascript:void(0);"
-                    class="deep-menu__block__link central"
+                    class="deep-menu__block__link central active"
                   >
                     <p class="deep-menu__block__link__title">Central-Billing</p>
                     <p class="deep-menu__block__link__text">Система для работы с закупками поставщиков</p>
+                  </a>
+                  <a
+                    href="/front-users"
+                    class="deep-menu__block__link um"
+                  >
+                    <p class="deep-menu__block__link__title">User Management</p>
+                    <p class="deep-menu__block__link__text">Система для работы с пользователями</p>
                   </a>
                 </div>
               </div>
@@ -214,9 +231,15 @@ export default {
     },
     toggleMainMenu(evt) {
       const prevSubMenuShown = this.shownSubMenuId;
-      const target = evt.currentTarget;
+      let target = evt.currentTarget;
 
       this.shownSubMenuId = target.getAttribute('menu-id');
+
+      if (this.shownSubMenuId === 'system') {
+        this.shownSubMenuId = 'profile';
+        target = document.querySelector('[menu-id="profile"]');
+      }
+
       this.toggleMenu();
       this.selectedSubCatalog = null;
 
@@ -249,7 +272,8 @@ export default {
     },
     logOut() {
       this.setUser(null);
-      // this.$router.push('/sign-in');
+      window.location.href = '/front-users/sign-in';
+      localStorage.clear();
     },
     selectSubCatalog({ alias, name, collections }) {
       this.selectedSubCatalog = {

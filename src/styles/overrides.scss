@@ -98,3 +98,9 @@ $red-select: #f55f5f;
 .breadcrumbs__link.active {
   color: var(--ford-orange) !important;
 }
+
+.current-system__block {
+  border: none;
+  outline: none;
+  cursor: pointer;
+}

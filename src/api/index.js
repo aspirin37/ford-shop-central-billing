@@ -1,5 +1,6 @@
 import axios from 'axios';
 import app from '../main';
+import store from '../store';
 
 const axiosInstance = axios.create({
   baseURL: process.env.VUE_APP_API_URL,
@@ -12,6 +13,15 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.response.use(
   async response => response.data,
   async error => {
+    if (
+      error.response &&
+      error.response.status === 401 &&
+      localStorage.getItem('jwtacc') &&
+      app.$route.name !== 'SignIn'
+    ) {
+      store.commit('toggleSignOutModal', true);
+    }
+
     if (error.response && error.response.status !== 401) {
       app.$bvToast.toast(error.response.data.error.message, {
         title: 'Ошибка',
