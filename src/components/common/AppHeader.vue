@@ -191,8 +191,6 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex';
-// import catalog from '@/utils/catalog.js';
-import subCatalog from '@/utils/sub-catalog.js';
 
 export default {
   name: 'AppHeader',
@@ -200,7 +198,6 @@ export default {
     shownSubMenuId: null,
     selectedSubCatalog: null,
     catalog: null,
-    subCatalog,
   }),
   computed: {
     ...mapState(['isMenuShown', 'user']),
