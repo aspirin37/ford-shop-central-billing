@@ -9,9 +9,18 @@ Vue.use(Router);
 
 const router = new Router({
   mode: 'history',
+  base: 'central-billing',
+  scrollBehavior: (to, from, savedPosition) => {
+    if (savedPosition) {
+      return savedPosition;
+    }
+    if (to.name !== from.name) {
+      return { y: 0 };
+    }
+  },
   routes: [
     {
-      path: '/main',
+      path: '/',
       name: 'Main',
       component: Main,
     },
@@ -22,7 +31,7 @@ const router = new Router({
     },
     {
       path: '*',
-      redirect: '/main',
+      redirect: '/',
     },
   ],
 });

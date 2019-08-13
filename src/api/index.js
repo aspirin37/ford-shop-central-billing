@@ -13,16 +13,21 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.response.use(
   async response => response.data,
   async error => {
-    if (
-      error.response &&
-      error.response.status === 401 &&
-      localStorage.getItem('jwtacc') &&
-      app.$route.name !== 'SignIn'
-    ) {
-      store.commit('toggleSignOutModal', true);
+    if (!error.response) {
+      return Promise.reject(error);
     }
 
-    if (error.response && error.response.status !== 401) {
+    // редиректы на страницу авторизации
+    if (error.response.status === 401 && app.$route.name !== 'SignIn') {
+      if (localStorage.getItem('jwtacc')) {
+        store.commit('toggleSignOutModal', true);
+        return;
+      }
+      window.location.href = '/front-users/sign-in';
+    }
+
+    // всплывашка с ошибками
+    if (error.response.status !== 401) {
       app.$bvToast.toast(error.response.data.error.message, {
         title: 'Ошибка',
         variant: 'danger',
