@@ -140,7 +140,7 @@
                 menu-id="profile"
                 class="deep-menu__block menu"
               >
-                <a href="/front-users/profile">
+                <a href="/front-users/profile?from=central-billing">
                   <i class="material-icons">account_circle</i>
                   Профиль
                 </a>
