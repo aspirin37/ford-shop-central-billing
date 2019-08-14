@@ -1,5 +1,8 @@
 <template>
-  <header @click="hideMenuOnExactLinkClick">
+  <header
+    v-if="user"
+    @click="hideMenuOnExactLinkClick"
+  >
     <div class="header align-items-center">
       <div class="container">
         <div class="row">
@@ -55,7 +58,7 @@
                 @click="toggleMainMenu"
               >
                 <span class="header__profile__name">
-                  {{ user && (user.name || user.email) }}
+                  {{ user.name || user.email }}
                 </span>
                 <div class="header__profile__image-block">
                   <i
