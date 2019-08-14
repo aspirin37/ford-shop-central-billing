@@ -38,7 +38,14 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   store.commit('hideMenu');
-  next();
+  if (!localStorage.jwtacc && to.name !== 'SignIn') {
+    next({
+      path: '/sign-in',
+      query: { redirect: to.fullPath },
+    });
+  } else {
+    next();
+  }
 });
 
 export default router;
