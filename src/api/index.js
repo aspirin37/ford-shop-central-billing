@@ -23,7 +23,7 @@ axiosInstance.interceptors.response.use(
         store.commit('toggleSignOutModal', true);
         return;
       }
-      window.location.href = '/front-users/sign-in';
+      window.location.href = `/front-users/sign-in?from=central-billing${this.$router.fullPath}`;
     }
 
     // всплывашка с ошибками
