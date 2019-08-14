@@ -58,6 +58,7 @@ export default {
     redirect() {
       this.$store.commit('setUser', null);
       this.$store.commit('toggleSignOutModal', false);
+      console.log(this.$route.fullPath, `/front-users/sign-in?from=central-billing${this.$route.fullPath}`);
       window.location.href = `/front-users/sign-in?from=central-billing${this.$route.fullPath}`;
       localStorage.clear();
     },
