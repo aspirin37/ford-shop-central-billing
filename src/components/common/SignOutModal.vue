@@ -49,11 +49,16 @@ export default {
       this.$store.commit('setBackgroundBlur', false);
     },
   },
+  mounted() {
+    if (this.isShown) {
+      this.$store.commit('setBackgroundBlur', true);
+    }
+  },
   methods: {
     redirect() {
       this.$store.commit('setUser', null);
       this.$store.commit('toggleSignOutModal', false);
-      window.location.href = `/front-users/sign-in?from=central-billing${this.$router.fullPath}`;
+      window.location.href = `/front-users/sign-in?from=central-billing${this.$route.fullPath}`;
       localStorage.clear();
     },
   },

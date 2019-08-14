@@ -104,3 +104,8 @@ $red-select: #f55f5f;
   outline: none;
   cursor: pointer;
 }
+
+#app.blurred main {
+  filter: blur(5px);
+  transition: filter 0.3s ease-in-out;
+}
