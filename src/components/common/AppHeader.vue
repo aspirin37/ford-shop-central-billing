@@ -267,7 +267,7 @@ export default {
       }
     },
     async getCatalog() {
-      const { collections } = await this.$http.get(`collections/${process.env.VUE_APP_CB_ROOT_ID}`);
+      const { collections } = await this.$http.get(`collection/1.0/collections/${process.env.VUE_APP_CB_ROOT_ID}`);
       this.catalog = collections;
     },
     logOut() {
