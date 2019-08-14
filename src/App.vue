@@ -16,5 +16,20 @@ export default {
     AppHeader,
     SignOutModal,
   },
+  created() {
+    this.updateRefreshToken();
+    setInterval(() => {
+      this.updateRefreshToken();
+    }, 10 * 60 * 1000);
+  },
+  methods: {
+    async updateRefreshToken() {
+      if (localStorage.refreshToken) {
+        await this.$http.post('user/1.0/token-validate', {
+          token: localStorage.refreshToken,
+        });
+      }
+    },
+  },
 };
 </script>
