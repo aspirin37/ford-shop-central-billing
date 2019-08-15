@@ -272,8 +272,11 @@ export default {
     },
     logOut() {
       this.setUser(null);
-      window.location.href = '/front-users/sign-in';
       localStorage.clear();
+
+      if (process.env.NODE_ENV !== 'development') {
+        window.location.href = '/front-users/sign-in';
+      }
     },
     selectSubCatalog({ alias, name, collections }) {
       this.selectedSubCatalog = {

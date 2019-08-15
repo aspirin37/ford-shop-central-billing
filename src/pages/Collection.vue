@@ -1,5 +1,8 @@
 <template>
-  <main id="product-list">
+  <main
+    v-if="!loading"
+    id="product-list"
+  >
     <div class="container">
       <div class="top-block">
         <div class="top-block__title">
@@ -9,7 +12,7 @@
         </div>
       </div>
       <breadcrumbs
-        :links="['Противоугон', 'Автосигнализации двухсторонние']"
+        :links="breadcrumbsLinks"
         is-catalog
       />
       <div class="content">
@@ -337,13 +340,40 @@ export default {
     id: String,
   },
   data: () => ({
+    loading: false,
     currentPage: 1,
     perPage: 10,
     limit: 10,
     totalCount: 0,
+    breadcrumbs: null,
+    items: null,
+    filters: null,
   }),
-  computed: {},
-  created() {},
-  methods: {},
+  computed: {
+    breadcrumbsLinks() {
+      return this.breadcrumbs.map(it => it.name);
+    },
+  },
+  watch: {
+    alias() {
+      this.getCollection();
+    },
+  },
+  created() {
+    this.getCollection();
+  },
+  methods: {
+    async getCollection() {
+      this.loading = true;
+      try {
+        const { breadcrumbs, items, props } = await this.$http.get(`collection/1.0/collections/byalias/${this.alias}/items`);
+        this.breadcrumbs = breadcrumbs;
+        this.items = items;
+        this.filters = props;
+      } finally {
+        this.loading = false;
+      }
+    },
+  },
 };
 </script>

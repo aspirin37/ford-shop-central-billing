@@ -28,6 +28,7 @@ const router = new Router({
       path: '/collection/:alias',
       name: 'Collection',
       component: Collection,
+      props: true,
     },
     {
       path: '*',
@@ -38,11 +39,8 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   store.commit('hideMenu');
-  if (!localStorage.jwtacc && to.name !== 'SignIn') {
-    next({
-      path: '/sign-in',
-      query: { redirect: to.fullPath },
-    });
+  if (!localStorage.jwtacc && process.env.NODE_ENV !== 'development') {
+    window.location.href = `/front-users/sign-in?from=central-billing${this.$route.fullPath}`;
   } else {
     next();
   }
