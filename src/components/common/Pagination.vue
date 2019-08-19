@@ -4,7 +4,7 @@
       <b-pagination
         :value="currentPage"
         :total-rows="totalCount"
-        :per-page="perPage"
+        :per-page="limit"
         @input="changePage"
       />
     </nav>
@@ -35,10 +35,6 @@ export default {
       required: true,
     },
     totalCount: {
-      type: Number,
-      required: true,
-    },
-    perPage: {
       type: Number,
       required: true,
     },

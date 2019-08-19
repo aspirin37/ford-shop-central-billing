@@ -1,13 +1,13 @@
 <template>
   <main
-    v-if="!loading"
+    v-if="!loading && items"
     id="product-list"
   >
     <div class="container">
       <div class="top-block">
         <div class="top-block__title">
           <h2 class="top-block__title__text">
-            Автосигнализации двухсторонние
+            {{ pageTitle }}
           </h2>
         </div>
       </div>
@@ -222,98 +222,14 @@
                 >По цене</a>
               </div>
             </div>
-            <!-- Элемент каталога -->
-            <div class="product-element">
-              <a
-                href="javascript:void(0);"
-                class="product-element__link"
-              >
-                <div class="product-element__image-block">
-                  <img
-                    src="images/product-preview.png"
-                    class="product-element__image-block__image"
-                  >
-                </div>
-                <div class="product-element__info">
-                  <p class="product-element__info__title">Pandora DX 90B</p>
-                  <p class="product-element__info__article">RB40012G</p>
-                  <p class="product-element__info__description">Тестовое описание товара, которое занимает
-                    порядочно места. На скринах тестового портала описание полностью дублирует название
-                  </p>
-                </div>
-              </a>
-              <div class="product-element__price">
-                <div class="product-element__price-info">
-                  <span class="product-element__price-info__title">Цена (без НДС):</span>
-                  <span class="product-element__price-info__total bold">9 171.97 р</span>
-                </div>
-                <div class="product-element__price-info">
-                  <span class="product-element__price-info__title">Цена (с НДС):</span>
-                  <span class="product-element__price-info__total">11 006.36 р</span>
-                </div>
-                <div class="product-element__price-info">
-                  <span class="product-element__price-info__title">МЦП (с НДС)*:</span>
-                  <span class="product-element__price-info__total">20 237.29 р</span>
-                </div>
-              </div>
-              <div class="product-element__buy">
-                <div class="product-element__amount">
-                  <span class="product-element__amount__value">123</span>
-                  <div class="arrow-block">
-                    <span class="arrow-block__top">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="17.138"
-                        height="8.273"
-                        viewBox="0 0 17.138 8.273"
-                      >
-                        <g
-                          id="Symbol_22"
-                          data-name="Symbol 22"
-                          transform="translate(4005.138 1119.273) rotate(-180)"
-                        >
-                          <path
-                            id="Path_3"
-                            data-name="Path 3"
-                            d="M3106.946,2498h17.138l-8.965,8.273Z"
-                            transform="translate(881.054 -1387)"
-                          ></path>
-                        </g>
-                      </svg>
-                    </span>
-                    <span class="arrow-block__bottom">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="17.138"
-                        height="8.273"
-                        viewBox="0 0 17.138 8.273"
-                      >
-                        <g
-                          id="Symbol_2_19"
-                          data-name="Symbol 2 – 19"
-                          transform="translate(-3988 -1111)"
-                        >
-                          <path
-                            id="Path_3"
-                            data-name="Path 3"
-                            d="M3106.946,2498h17.138l-8.965,8.273Z"
-                            transform="translate(881.054 -1387)"
-                          ></path>
-                        </g>
-                      </svg>
-                    </span>
-                  </div>
-                </div>
-                <button class="btn btn-primary-ford-orange">
-                  <i class="material-icons">shopping_cart</i>
-                  В корзину
-                </button>
-              </div>
-            </div>
+            <collection-item
+              v-for="(it, i) in items"
+              :key="i"
+              :item="it"
+            />
           </div>
           <pagination
             :current-page="currentPage"
-            :per-page="perPage"
             :limit="limit"
             :total-count="totalCount"
             @pageChanged="(page) => currentPage = page"
@@ -328,12 +244,14 @@
 <script>
 import Breadcrumbs from '@/components/common/Breadcrumbs';
 import Pagination from '@/components/common/Pagination';
+import CollectionItem from '@/components/collection/CollectionItem';
 
 export default {
   name: 'Collection',
   components: {
     Breadcrumbs,
     Pagination,
+    CollectionItem,
   },
   props: {
     alias: String,
@@ -342,7 +260,6 @@ export default {
   data: () => ({
     loading: false,
     currentPage: 1,
-    perPage: 10,
     limit: 10,
     totalCount: 0,
     breadcrumbs: null,
@@ -352,6 +269,9 @@ export default {
   computed: {
     breadcrumbsLinks() {
       return this.breadcrumbs.map(it => it.name);
+    },
+    pageTitle() {
+      return this.breadcrumbsLinks[this.breadcrumbsLinks.length - 1];
     },
   },
   watch: {
@@ -366,7 +286,12 @@ export default {
     async getCollection() {
       this.loading = true;
       try {
-        const { breadcrumbs, items, props } = await this.$http.get(`collection/1.0/collections/byalias/${this.alias}/items`);
+        const { breadcrumbs, items, props } = await this.$http.get(`collection/1.0/collections/byalias/${this.alias}/items`, {
+          params: {
+            limit: this.limit,
+            offset: (this.currentPage - 1) * this.limit,
+          },
+        });
         this.breadcrumbs = breadcrumbs;
         this.items = items;
         this.filters = props;
