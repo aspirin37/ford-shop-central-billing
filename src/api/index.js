@@ -11,7 +11,23 @@ const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.response.use(
-  async response => response.data,
+  async response => {
+    // если в хедере есть jwtacc, логинимся и получаем юзера
+    if (response.headers.jwtacc) {
+      localStorage.setItem('jwtacc', response.headers.jwtacc);
+      axiosInstance.defaults.headers.jwtacc = response.headers.jwtacc;
+
+      if (response.data.refreshToken) {
+        localStorage.setItem('refreshToken', response.data.refreshToken);
+      }
+
+      if (!store.state.user) {
+        const user = await axiosInstance.get('user/1.0/self-user');
+        store.commit('setUser', user);
+      }
+    }
+    return response.data;
+  },
   async error => {
     if (!error.response) {
       return Promise.reject(error);

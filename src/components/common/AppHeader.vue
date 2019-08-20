@@ -13,7 +13,7 @@
             >
               <router-link
                 class="header__logo__link"
-                to="user-list"
+                to="/"
               >
                 <img
                   class="header__logo__image"

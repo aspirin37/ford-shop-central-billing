@@ -109,3 +109,39 @@ $red-select: #f55f5f;
   filter: blur(5px);
   transition: filter 0.3s ease-in-out;
 }
+
+#product-list .filter-block {
+  grid-template-rows: max-content;
+
+  &__element {
+    margin-top: 0;
+    margin-bottom: 10px;
+
+    &:last-of-type {
+      margin-top: 20px;
+
+      button {
+        margin-bottom: 5px;
+      }
+    }
+
+    &__title {
+      margin-bottom: 7px;
+    }
+
+    &__wrapper__content {
+      &.active {
+        margin: 0;
+      }
+
+      &__reset {
+        position: static;
+        margin-bottom: 10px;
+      }
+
+      &__need-more {
+        margin: 3px 0;
+      }
+    }
+  }
+}
