@@ -66,7 +66,7 @@
           </button>
           <button
             class="arrow-block__bottom"
-            @click="total--"
+            @click="decrease"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -107,6 +107,13 @@ export default {
   data: () => ({
     total: 0,
   }),
+  methods: {
+    decrease() {
+      if (this.total > 0) {
+        this.total--;
+      }
+    },
+  },
 };
 </script>
 

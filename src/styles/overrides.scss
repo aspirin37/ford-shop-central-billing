@@ -130,17 +130,24 @@ $red-select: #f55f5f;
     }
 
     &__wrapper__content {
-      &.active {
-        margin: 0;
-      }
+      margin: 0 !important;
 
       &__reset {
         position: static;
+        max-height: 30px;
         margin-bottom: 10px;
+        overflow: hidden;
+        transition: all 2s ease-out;
       }
 
       &__need-more {
         margin: 3px 0;
+      }
+
+      &__more-items {
+        max-height: 400px;
+        overflow: hidden;
+        transition: all 0.5s ease-out;
       }
     }
   }

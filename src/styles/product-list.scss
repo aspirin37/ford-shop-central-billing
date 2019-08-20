@@ -76,12 +76,6 @@
             }
           }
 
-          &.active {
-            height: max-content;
-            margin: 20px 0;
-            opacity: 1;
-          }
-
           &__need-more span,
           &__reset span {
             font-size: 14px;
@@ -124,12 +118,6 @@
           transform: rotate(0);
           transition: transform 0.3s ease-in-out;
         }
-
-        &.active {
-          i {
-            transform: rotate(180deg);
-          }
-        }
       }
 
       &__select-block {
@@ -147,6 +135,18 @@
           font-family: 'ArialNew', sans-serif;
           font-size: 14px;
           line-height: 24px;
+        }
+      }
+
+      &_active {
+        .filter-block__element__title i {
+          transform: rotate(180deg);
+        }
+
+        .filter-block__element__wrapper__content {
+          height: max-content;
+          margin: 20px 0;
+          opacity: 1;
         }
       }
 

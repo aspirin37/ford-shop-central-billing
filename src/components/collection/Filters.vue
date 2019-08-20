@@ -22,6 +22,7 @@
         <collection-checkbox-group
           v-for="(filter, i) in filters"
           :key="i"
+          :position="i"
           :filter="filter"
         />
         <div class="filter-block__element">

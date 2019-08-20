@@ -2,7 +2,7 @@
   <div class="custom-control custom-checkbox">
     <input
       :id="id"
-      v-model="isChecked"
+      v-model="filter.isChecked"
       :disabled="!filter.count"
       type="checkbox"
       class="custom-control-input"
@@ -23,9 +23,6 @@ export default {
   props: {
     filter: Object,
   },
-  data: () => ({
-    isChecked: false,
-  }),
   computed: {
     id() {
       return this.filter.value + String(Math.random());

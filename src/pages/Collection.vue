@@ -137,7 +137,13 @@ export default {
         });
         this.breadcrumbs = breadcrumbs;
         this.items = items;
-        this.filters = props;
+        this.filters = props.map(filter => {
+          filter.values = filter.values.map(checkbox => {
+            checkbox.isChecked = false;
+            return checkbox;
+          });
+          return filter;
+        });
       } finally {
         this.loading = false;
       }

@@ -1,29 +1,72 @@
 <template>
   <div
-    :key="key"
     class="filter-block__element"
+    :class="{'filter-block__element_active': isCheckboxGroupShown}"
   >
-    <p class="filter-block__element__title">
+    <p
+      class="filter-block__element__title"
+      @click="isCheckboxGroupShown = !isCheckboxGroupShown"
+    >
       {{ filter._id }}
       <i class="material-icons">keyboard_arrow_down</i>
     </p>
     <div class="filter-block__element__wrapper">
-      <div class="filter-block__element__wrapper__content active">
+      <transition name="fade">
         <div
-          class="filter-block__element__wrapper__content__reset"
-          @click="resetFilters"
+          v-if="isCheckboxGroupShown"
+          class="filter-block__element__wrapper__content"
         >
-          <span>сбросить фильтр</span>
+          <transition name="collapse">
+            <div
+              v-if="isResetButtonShown"
+              class="filter-block__element__wrapper__content__reset"
+              @click="resetFilters"
+            >
+              <span>сбросить фильтр</span>
+            </div>
+          </transition>
+          <template v-for="(it, i) in filter.values">
+            <collection-checkbox
+              v-if="i + 1 <= defaultShownItemsCount"
+              :key="i"
+              :filter="it"
+            />
+          </template>
+
+          <transition name="collapse-items">
+            <div
+              v-show="allItemsShown"
+              ref="more-items"
+              class="filter-block__element__wrapper__content__more-items"
+            >
+              <template v-for="(it, i) in filter.values">
+                <collection-checkbox
+                  v-if="i + 1 > defaultShownItemsCount"
+                  :key="i"
+                  :filter="it"
+                />
+              </template>
+            </div>
+          </transition>
+          <div
+            v-if="filter.values.length > defaultShownItemsCount"
+            class="filter-block__element__wrapper__content__need-more"
+          >
+            <span
+              v-if="!allItemsShown"
+              @click="allItemsShown = true"
+            >
+              показать еще
+            </span>
+            <span
+              v-else
+              @click="allItemsShown = false"
+            >
+              Скрыть
+            </span>
+          </div>
         </div>
-        <collection-checkbox
-          v-for="(it, i) in filter.values"
-          :key="i"
-          :filter="it"
-        />
-        <div class="filter-block__element__wrapper__content__need-more">
-          <span>показать еще</span>
-        </div>
-      </div>
+      </transition>
     </div>
   </div>
 </template>
@@ -38,13 +81,38 @@ export default {
   },
   props: {
     filter: Object,
+    position: Number,
   },
   data: () => ({
-    key: 0,
+    defaultShownItemsCount: 10,
+    allItemsShown: false,
+    isCheckboxGroupShown: false,
   }),
+  computed: {
+    isResetButtonShown() {
+      return this.filter.values.find(it => it.isChecked);
+    },
+  },
+  mounted() {
+    this.calculateMoreItemsBlockHeight();
+    if (this.position < 2) {
+      this.isCheckboxGroupShown = true;
+    }
+  },
   methods: {
     resetFilters() {
-      this.key++;
+      this.filter.values.forEach(it => {
+        it.isChecked = false;
+      });
+    },
+    calculateMoreItemsBlockHeight() {
+      setTimeout(() => {
+        if (!this.$refs['more-items']) {
+          return;
+        }
+
+        this.$refs['more-items'].style.maxHeight = `${(this.filter.values.length - this.defaultShownItemsCount) * 30 + 60}px`;
+      }, 0);
     },
   },
 };
