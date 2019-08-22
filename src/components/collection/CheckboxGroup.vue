@@ -7,7 +7,7 @@
       class="filter-block__element__title"
       @click="isCheckboxGroupShown = !isCheckboxGroupShown"
     >
-      {{ filter._id }}
+      {{ filter.alias }}
       <i class="material-icons">keyboard_arrow_down</i>
     </p>
     <div class="filter-block__element__wrapper">
@@ -85,6 +85,7 @@ export default {
   },
   data: () => ({
     defaultShownItemsCount: 10,
+    defaultShownGroupsCount: 1,
     allItemsShown: false,
     isCheckboxGroupShown: false,
   }),
@@ -95,7 +96,7 @@ export default {
   },
   mounted() {
     this.calculateMoreItemsBlockHeight();
-    if (this.position < 2) {
+    if (this.position < this.defaultShownGroupsCount) {
       this.isCheckboxGroupShown = true;
     }
   },

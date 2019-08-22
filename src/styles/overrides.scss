@@ -127,6 +127,10 @@ $red-select: #f55f5f;
 
     &__title {
       margin-bottom: 7px;
+
+      i {
+        transition: transform 0.2s ease-in-out;
+      }
     }
 
     &__wrapper__content {
