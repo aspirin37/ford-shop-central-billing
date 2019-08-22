@@ -75,7 +75,7 @@
 import CollectionCheckbox from './Checkbox';
 
 export default {
-  name: 'CatalogCheckboxGroup',
+  name: 'CollectionCheckboxGroup',
   components: {
     CollectionCheckbox,
   },

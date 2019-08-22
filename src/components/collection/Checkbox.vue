@@ -19,7 +19,7 @@
 
 <script>
 export default {
-  name: 'CatalogCheckbox',
+  name: 'CollectionCheckbox',
   props: {
     filter: Object,
   },

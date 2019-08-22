@@ -40,7 +40,7 @@
             >
               <span
                 class="header__menu__one_multiple"
-                menu-id="catalog"
+                menu-id="collection"
                 @click="toggleMainMenu"
               >
                 Каталог
@@ -88,22 +88,22 @@
           >
             <div class="col position-static">
               <div
-                v-show="shownSubMenuId === 'catalog'"
-                menu-id="catalog"
+                v-show="shownSubMenuId === 'collection'"
+                menu-id="collection"
                 class="deep-menu__block central-billing"
               >
                 <div
-                  v-if="catalog"
+                  v-if="collection"
                   class="container"
                 >
                   <div class="central-billing__wrapper">
                     <div
-                      v-for="it in catalog"
+                      v-for="it in collection"
                       :key="it.alias"
-                      :sub-catalog-type="it.alias"
+                      :sub-collection-type="it.alias"
                       class="central-billing__item"
-                      :class="{'active': selectedSubCatalog && it.alias === selectedSubCatalog.alias}"
-                      @click="selectSubCatalog(it)"
+                      :class="{'active': selectedSubCollection && it.alias === selectedSubCollection.alias}"
+                      @click="selectSubCollection(it)"
                     >
                       <div class="central-billing__item__wrapper-icon">
                         <i class="material-icons">{{ it.icon }}</i>
@@ -116,16 +116,16 @@
                     mode="in-out"
                   >
                     <div
-                      v-if="selectedSubCatalog"
+                      v-if="selectedSubCollection"
                       class="central-billing__deep__wrapper"
                     >
                       <div class="central-billing__deep__item">
                         <span class="central-billing__deep__item__title">
-                          {{ selectedSubCatalog.name }}
+                          {{ selectedSubCollection.name }}
                         </span>
                         <div class="central-billing__deep__item__links-block">
                           <router-link
-                            v-for="(it, i) in selectedSubCatalog.collections"
+                            v-for="(it, i) in selectedSubCollection.collections"
                             :key="i"
                             class="central-billing__deep__item__link"
                             :to="{name: 'Collection', params: { alias: it.alias, id: it.guid }}"
@@ -199,15 +199,15 @@ export default {
   name: 'AppHeader',
   data: () => ({
     shownSubMenuId: null,
-    selectedSubCatalog: null,
-    catalog: null,
+    selectedSubCollection: null,
+    collection: null,
   }),
   computed: {
     ...mapState(['isMenuShown', 'user']),
   },
   mounted() {
     document.addEventListener('click', this.outOfHeaderClickHandler);
-    this.getCatalog();
+    this.getCollection();
   },
   beforeDestroy() {
     document.removeEventListener('click', this.outOfHeaderClickHandler);
@@ -226,7 +226,7 @@ export default {
 
       if (!isNavigationClicked) {
         this.hideMenu();
-        this.selectedSubCatalog = null;
+        this.selectedSubCollection = null;
       }
     },
     toggleMainMenu(evt) {
@@ -241,7 +241,7 @@ export default {
       }
 
       this.toggleMenu();
-      this.selectedSubCatalog = null;
+      this.selectedSubCollection = null;
 
       if (!this.isMenuShown && prevSubMenuShown !== this.shownSubMenuId) {
         this.showMenu();
@@ -254,7 +254,7 @@ export default {
       if (!target.classList.contains('active')) {
         Array.from(document.querySelectorAll('.deep-menu__block')).forEach(it => {
           const itemMenuId = it.getAttribute('menu-id');
-          if (itemMenuId === MenuId && itemMenuId !== 'catalog') {
+          if (itemMenuId === MenuId && itemMenuId !== 'collection') {
             it.style.left = `${LeftCoord}px`;
           }
         });
@@ -263,12 +263,12 @@ export default {
     hideMenuOnExactLinkClick(evt) {
       if (evt.target.classList.contains('router-link-exact-active')) {
         this.hideMenu();
-        this.selectedSubCatalog = null;
+        this.selectedSubCollection = null;
       }
     },
-    async getCatalog() {
+    async getCollection() {
       const { collections } = await this.$http.get(`collection/1.0/collections/${process.env.VUE_APP_CB_ROOT_ID}`);
-      this.catalog = collections;
+      this.collection = collections;
     },
     logOut() {
       this.setUser(null);
@@ -278,8 +278,8 @@ export default {
         window.location.href = '/front-users/sign-in';
       }
     },
-    selectSubCatalog({ alias, name, collections }) {
-      this.selectedSubCatalog = {
+    selectSubCollection({ alias, name, collections }) {
+      this.selectedSubCollection = {
         alias,
         name,
         collections,

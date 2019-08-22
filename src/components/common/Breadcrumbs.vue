@@ -7,7 +7,7 @@
       <i class="material-icons">home</i>
     </router-link>
     <a
-      v-if="isCatalog"
+      v-if="isCollection"
       class="breadcrumbs__link"
     >
       <i class="material-icons">arrow_forward_ios</i>
@@ -30,7 +30,7 @@ export default {
   name: 'Breadcrumbs',
   props: {
     links: Array,
-    isCatalog: Boolean,
+    isCollection: Boolean,
   },
 };
 </script>

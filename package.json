@@ -41,6 +41,7 @@
         "rules": {
             "arrow-parens": "off",
             "arrow-body-style": "off",
+            "array-callback-return": "off",
             "consistent-return": "off",
             "default-case": "off",
             "generator-star-spacing": "off",
@@ -54,6 +55,7 @@
             "max-len": "off",
             "no-param-reassign": "off",
             "no-plusplus": "off",
+            "prefer-template": "off",
             "vue/component-name-in-template-casing": ["error", "kebab-case"],
             "vue/html-indent": ["error", 2],
             "vue/html-self-closing": "off",

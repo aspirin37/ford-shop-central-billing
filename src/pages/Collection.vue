@@ -14,54 +14,29 @@
         </div>
         <breadcrumbs
           :links="breadcrumbsLinks"
-          is-catalog
+          is-collection
         />
         <div class="content">
-          <collection-filters :filters="filters" />
-
+          <collection-filters
+            :filters="filters"
+            :loading="loading"
+            @applyFilters="applyFilters"
+          />
           <div class="content__wrapper">
-            <transition
-              name="fade"
-              mode="out-in"
-            >
-              <div
-                v-if="!loading"
-                key="items"
+            <div class="items-block">
+              <collection-top-options
+                :sort="sort"
+                :loading="loading"
+                @sortChanged="(val) => sort = val"
+              />
+              <transition
+                name="fade"
+                mode="out-in"
               >
-                <div class="items-block">
-                  <div class="items-block__top">
-                    <div class="prognosis">
-                      <div class="custom-control custom-switch">
-                        <input
-                          id="customSwitch1"
-                          type="checkbox"
-                          class="custom-control-input"
-                        >
-                        <label
-                          class="custom-control-label"
-                          for="customSwitch1"
-                        >
-                          Режим прогнозов
-                        </label>
-                      </div>
-                    </div>
-                    <div class="sort">
-                      <a
-                        class="sort__link sort__link_active sort__link_asc"
-                        href="javascript:void(0);"
-                        data-type="name"
-                      >
-                        По алфавиту
-                      </a>
-                      <a
-                        class="sort__link"
-                        href="javascript:void(0);"
-                        data-type="price"
-                      >
-                        По цене
-                      </a>
-                    </div>
-                  </div>
+                <div
+                  v-if="!loading"
+                  key="items"
+                >
                   <div
                     v-if="!firstTimeLoading && !items.length"
                     class="product-element"
@@ -74,22 +49,27 @@
                     :item="it"
                   />
                 </div>
-                <pagination
-                  v-if="items.length"
-                  :current-page="currentPage"
-                  :limit="limit"
-                  :total-count="total"
-                  @pageChanged="(page) => currentPage = page"
-                  @limitChanged="(lim) => limit = lim"
-                />
-              </div>
-              <div
-                v-else
-                key="loader"
-                class="collection-spinner__wrapper d-flex"
-              >
-                <b-spinner class="collection-spinner mx-auto" />
-              </div>
+                <div
+                  v-else
+                  key="loader"
+                  class="collection-spinner__wrapper d-flex"
+                >
+                  <b-spinner class="collection-spinner mx-auto" />
+                </div>
+              </transition>
+            </div>
+            <transition
+              name="fade"
+              mode="out-in"
+            >
+              <pagination
+                v-if="!loading && items.length"
+                :current-page="currentPage"
+                :limit="limit"
+                :total-count="total"
+                @pageChanged="(page) => currentPage = page"
+                @limitChanged="(lim) => limit = lim"
+              />
             </transition>
           </div>
         </div>
@@ -127,6 +107,7 @@ import Breadcrumbs from '@/components/common/Breadcrumbs';
 import Pagination from '@/components/common/Pagination';
 import CollectionItem from '@/components/collection/Item';
 import CollectionFilters from '@/components/collection/Filters';
+import CollectionTopOptions from '@/components/collection/TopOptions';
 
 export default {
   name: 'Collection',
@@ -135,6 +116,7 @@ export default {
     Pagination,
     CollectionItem,
     CollectionFilters,
+    CollectionTopOptions,
   },
   props: {
     alias: String,
@@ -150,6 +132,7 @@ export default {
     breadcrumbs: null,
     items: null,
     filters: null,
+    filtersRequestObject: {},
     sort: '+name',
   }),
   computed: {
@@ -162,6 +145,11 @@ export default {
   },
   watch: {
     alias() {
+      this.getCollection();
+    },
+    sort() {
+      this.pageWatcherDisabled = true;
+      this.currentPage = 1;
       this.getCollection();
     },
     limit() {
@@ -192,6 +180,7 @@ export default {
               limit: this.limit,
               skip: (this.currentPage - 1) * this.limit,
               sort: this.sort,
+              ...this.filtersRequestObject,
             },
           },
         );
@@ -212,6 +201,10 @@ export default {
         this.firstTimeLoading = false;
         this.pageWatcherDisabled = false;
       }
+    },
+    applyFilters(filters) {
+      this.filtersRequestObject = filters;
+      this.getCollection();
     },
   },
 };

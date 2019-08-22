@@ -29,12 +29,14 @@
           <button
             type="submit"
             class="btn btn-primary-ford-orange"
+            @click.prevent="applyFilters"
           >
             Показать
           </button>
           <button
             type="reset"
             class="btn btn-secondary-ford-gray"
+            @click.prevent="resetFilters"
           >
             Сбросить
           </button>
@@ -48,19 +50,46 @@
 import CollectionCheckboxGroup from './CheckboxGroup';
 
 export default {
-  name: 'CatalogFilters',
+  name: 'CollectionFilters',
   components: {
     CollectionCheckboxGroup,
   },
   props: {
     filters: Array,
   },
-  data: () => ({
-    key: 0,
-  }),
+  computed: {
+    filterRequestObject() {
+      return this.filters.reduce((acc, prop) => {
+        const checkedValues = prop.values.filter(it => it.isChecked);
+        let objectKey;
+        let objectValue;
+
+        if (!checkedValues.length) {
+          return acc;
+        }
+
+        if (checkedValues.length === 1) {
+          objectKey = `properties~${prop.name}`;
+          objectValue = checkedValues[0].value;
+          acc[objectKey] = objectValue;
+          return acc;
+        }
+
+        if (checkedValues.length > 1) {
+          objectKey = `properties~${prop.name}[in]`;
+          objectValue = checkedValues.map(it => it.value);
+          acc[objectKey] = objectValue;
+          return acc;
+        }
+      }, {});
+    },
+  },
   methods: {
+    applyFilters() {
+      this.$emit('applyFilters', this.filterRequestObject);
+    },
     resetFilters() {
-      this.key++;
+      this.$emit('applyFilters', {});
     },
   },
 };

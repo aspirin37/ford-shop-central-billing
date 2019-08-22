@@ -100,7 +100,7 @@
 
 <script>
 export default {
-  name: 'CatalogItem',
+  name: 'CollectionItem',
   props: {
     item: Object,
   },
