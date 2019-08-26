@@ -77,7 +77,7 @@ export default {
 
         if (checkedValues.length > 1) {
           objectKey = `properties~${prop.name}[in]`;
-          objectValue = checkedValues.map(it => it.value);
+          objectValue = checkedValues.map(it => it.value).join(',');
           acc[objectKey] = objectValue;
           return acc;
         }
