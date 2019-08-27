@@ -220,6 +220,7 @@ export default {
           const [, currentFilterGroupState] = Array.from(Object.entries(filterState)).find(([key, val]) => key === filterGroup.name);
           const [, prevFilterGroupState] = Array.from(Object.entries(this.prevFilterState)).find(([key, val]) => key === filterGroup.name);
 
+          // Ничего не делаем с группой инпутов, если юзер делал в ней изменения с прошлой загрузки данных
           if (currentFilterGroupState && currentFilterGroupState !== prevFilterGroupState) {
             filterGroup.values.map(value => {
               value.isDisabled = false;
@@ -228,15 +229,9 @@ export default {
             return filterGroup;
           }
 
-          let newFilterGroupInfo = props.find(prop => prop.name === filterGroup.name);
-          if (!newFilterGroupInfo) {
-            filterGroup.values = filterGroup.values.map(value => {
-              value.count = 0;
-              value.isDisabled = true;
-              return value;
-            });
-            return filterGroup;
-          }
+          const newFilterGroupInfo = props.find(prop => prop.name === filterGroup.name);
+
+          // обновляем счетчики и состояние инпутов в соответствии с ответом с сервера
           filterGroup.values = filterGroup.values.map(it => {
             const match = newFilterGroupInfo.values.find(prop => prop.value === it.value);
             if (match) {
