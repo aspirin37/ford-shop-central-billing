@@ -162,3 +162,9 @@ $red-select: #f55f5f;
   background-color: var(--ford-gray-shadow) !important;
   opacity: 0.5;
 }
+
+.btn-primary-ford-orange,
+button[type='reset'] {
+  transition: 0.3s ease-in-out;
+  transition-property: background-color, border-color, opacity;
+}

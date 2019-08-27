@@ -20,6 +20,7 @@
           <collection-filters
             :filters="filters"
             :loading="loading"
+            :prev-filter-state="prevFilterState"
             @applyFilters="applyFilters"
             @updateFilterState="updateFilterState"
           />
@@ -172,7 +173,7 @@ export default {
     this.getCollection();
   },
   methods: {
-    async getCollection(filterState) {
+    async getCollection() {
       this.loading = true;
       try {
         if (this.firstTimeLoading || !Object.keys(this.filterRequestObject).length) {
@@ -206,6 +207,8 @@ export default {
             acc[prop.name] = null;
             return acc;
           }, {});
+
+          this.filterState = JSON.parse(JSON.stringify(this.prevFilterState));
           return;
         }
         const { items, props, total } = await this.$http.get(`collection/1.0/collections/byalias/${this.alias}/items`, {
@@ -224,9 +227,9 @@ export default {
 
           // Ничего не делаем с группой инпутов, если юзер делал в ней изменения с прошлой загрузки данных
           if (currentFilterGroupState && currentFilterGroupState !== prevFilterGroupState) {
-            filterGroup.values.map(value => {
-              value.isDisabled = false;
-              return value;
+            filterGroup.values.map(it => {
+              it.isDisabled = false;
+              return it;
             });
             return filterGroup;
           }

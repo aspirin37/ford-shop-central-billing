@@ -12,6 +12,7 @@
         "bootstrap": "^4.3.1",
         "bootstrap-vue": "^2.0.0-rc.25",
         "core-js": "^2.6.5",
+        "lodash.isequal": "^4.5.0",
         "material-design-icons-iconfont": "^5.0.1",
         "vue": "^2.6.10",
         "vue-router": "^3.0.3",
@@ -50,14 +51,26 @@
             "import/no-unresolved": "off",
             "import/no-cycle": "off",
             "implicit-arrow-linebreak": "off",
-            "indent": ["error", 2, {"SwitchCase": 1}],
+            "indent": [
+                "error",
+                2,
+                {
+                    "SwitchCase": 1
+                }
+            ],
             "linebreak-style": 0,
             "max-len": "off",
             "no-param-reassign": "off",
             "no-plusplus": "off",
             "prefer-template": "off",
-            "vue/component-name-in-template-casing": ["error", "kebab-case"],
-            "vue/html-indent": ["error", 2],
+            "vue/component-name-in-template-casing": [
+                "error",
+                "kebab-case"
+            ],
+            "vue/html-indent": [
+                "error",
+                2
+            ],
             "vue/html-self-closing": "off",
             "vue/return-in-computed-property": "off",
             "vue/require-default-prop": "off",

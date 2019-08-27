@@ -30,7 +30,7 @@
           <button
             type="submit"
             class="btn btn-primary-ford-orange"
-            :disabled="loading"
+            :disabled="isFilterDisabled"
             @click.prevent="applyFilters"
           >
             Показать
@@ -38,7 +38,7 @@
           <button
             type="reset"
             class="btn btn-secondary-ford-gray"
-            :disabled="loading"
+            :disabled="isFilterDisabled"
             @click.prevent="resetFilters"
           >
             Сбросить
@@ -50,6 +50,7 @@
 </template>
 
 <script>
+import isEqual from 'lodash.isequal';
 import CollectionCheckboxGroup from './CheckboxGroup';
 
 export default {
@@ -60,7 +61,11 @@ export default {
   props: {
     filters: Array,
     loading: Boolean,
+    prevFilterState: Object,
   },
+  data: () => ({
+    filterWasUsed: false,
+  }),
   computed: {
     filterState() {
       return this.filters.reduce((acc, prop) => {
@@ -105,11 +110,15 @@ export default {
         }
       }, {});
     },
+    isFilterDisabled() {
+      return this.loading || (this.filterWasUsed && isEqual(this.prevFilterState, this.filterState));
+    },
   },
   watch: {
     filters: {
       handler() {
         this.$emit('updateFilterState', this.filterState);
+        this.filterWasUsed = true;
       },
       deep: true,
     },
