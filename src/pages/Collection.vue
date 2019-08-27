@@ -220,7 +220,7 @@ export default {
           const [, currentFilterGroupState] = Array.from(Object.entries(filterState)).find(([key, val]) => key === filterGroup.name);
           const [, prevFilterGroupState] = Array.from(Object.entries(this.prevFilterState)).find(([key, val]) => key === filterGroup.name);
 
-          if (currentFilterGroupState !== prevFilterGroupState) {
+          if (currentFilterGroupState && currentFilterGroupState !== prevFilterGroupState) {
             filterGroup.values.map(value => {
               value.isDisabled = false;
               return value;
