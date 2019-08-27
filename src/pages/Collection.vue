@@ -21,6 +21,7 @@
             :filters="filters"
             :loading="loading"
             @applyFilters="applyFilters"
+            @updateFilterState="updateFilterState"
           />
           <div class="content__wrapper">
             <div class="items-block">
@@ -132,6 +133,7 @@ export default {
     breadcrumbs: null,
     items: null,
     filters: null,
+    filterState: {},
     prevFilterState: {},
     filterRequestObject: {},
     sort: '+name',
@@ -217,7 +219,7 @@ export default {
         this.items = items;
         this.total = total;
         this.filters = this.filters.map(filterGroup => {
-          const [, currentFilterGroupState] = Array.from(Object.entries(filterState)).find(([key, val]) => key === filterGroup.name);
+          const [, currentFilterGroupState] = Array.from(Object.entries(this.filterState)).find(([key, val]) => key === filterGroup.name);
           const [, prevFilterGroupState] = Array.from(Object.entries(this.prevFilterState)).find(([key, val]) => key === filterGroup.name);
 
           // Ничего не делаем с группой инпутов, если юзер делал в ней изменения с прошлой загрузки данных
@@ -230,6 +232,16 @@ export default {
           }
 
           const newFilterGroupInfo = props.find(prop => prop.name === filterGroup.name);
+
+          // Если сервер не вернул информации по группе инпутов, обнуляем счетчики значений и блокируем их
+          if (!newFilterGroupInfo) {
+            filterGroup.values = filterGroup.values.map(value => {
+              value.count = 0;
+              value.isDisabled = true;
+              return value;
+            });
+            return filterGroup;
+          }
 
           // обновляем счетчики и состояние инпутов в соответствии с ответом с сервера
           filterGroup.values = filterGroup.values.map(it => {
@@ -247,16 +259,19 @@ export default {
 
           return filterGroup;
         });
-        this.prevFilterState = filterState;
+        this.prevFilterState = this.filterState;
       } finally {
         this.loading = false;
         this.firstTimeLoading = false;
         this.pageWatcherDisabled = false;
       }
     },
-    applyFilters(filters, filterState) {
+    applyFilters(filters) {
       this.filterRequestObject = filters;
-      this.getCollection(filterState);
+      this.getCollection();
+    },
+    updateFilterState(filterState) {
+      this.filterState = filterState;
     },
   },
 };

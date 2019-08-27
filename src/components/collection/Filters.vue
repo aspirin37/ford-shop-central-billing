@@ -106,6 +106,14 @@ export default {
       }, {});
     },
   },
+  watch: {
+    filters: {
+      handler() {
+        this.$emit('updateFilterState', this.filterState);
+      },
+      deep: true,
+    },
+  },
   methods: {
     applyFilters() {
       this.$emit('applyFilters', this.filterRequestObject, this.filterState);
