@@ -38,7 +38,7 @@
           <button
             type="reset"
             class="btn btn-secondary-ford-gray"
-            :disabled="isFilterDisabled"
+            :disabled="loading"
             @click.prevent="resetFilters"
           >
             Сбросить
@@ -111,7 +111,12 @@ export default {
       }, {});
     },
     isFilterDisabled() {
-      return this.loading || (this.filterWasUsed && isEqual(this.prevFilterState, this.filterState));
+      return (
+        this.loading ||
+        (this.filterWasUsed &&
+          isEqual(this.prevFilterState, this.filterState) &&
+          Array.from(Object.values(this.prevFilterState)).find(val => val !== null))
+      );
     },
   },
   watch: {
