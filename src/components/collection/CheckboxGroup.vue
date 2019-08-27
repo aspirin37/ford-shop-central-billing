@@ -30,6 +30,7 @@
               v-if="i + 1 <= defaultShownItemsCount"
               :key="i"
               :filter="it"
+              :loading="loading"
             />
           </template>
 
@@ -44,6 +45,7 @@
                   v-if="i + 1 > defaultShownItemsCount"
                   :key="i"
                   :filter="it"
+                  :loading="loading"
                 />
               </template>
             </div>
@@ -82,6 +84,7 @@ export default {
   props: {
     filter: Object,
     position: Number,
+    loading: Boolean,
   },
   data: () => ({
     defaultShownItemsCount: 10,
@@ -104,6 +107,7 @@ export default {
     resetFilters() {
       this.filter.values.forEach(it => {
         it.isChecked = false;
+        it.isDisabled = false;
       });
     },
     calculateMoreItemsBlockHeight() {

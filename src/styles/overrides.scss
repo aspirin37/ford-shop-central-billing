@@ -156,3 +156,9 @@ $red-select: #f55f5f;
     }
   }
 }
+
+.custom-control-input:checked:disabled ~ .custom-control-label::before {
+  border-color: var(--ford-gray-shadow) !important;
+  background-color: var(--ford-gray-shadow) !important;
+  opacity: 0.5;
+}

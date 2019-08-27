@@ -3,7 +3,7 @@
     <input
       :id="id"
       v-model="filter.isChecked"
-      :disabled="!filter.count"
+      :disabled="filter.isDisabled || loading"
       type="checkbox"
       class="custom-control-input"
     >
@@ -22,6 +22,7 @@ export default {
   name: 'CollectionCheckbox',
   props: {
     filter: Object,
+    loading: Boolean,
   },
   computed: {
     id() {

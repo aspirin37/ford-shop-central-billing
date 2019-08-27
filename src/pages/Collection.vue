@@ -132,7 +132,8 @@ export default {
     breadcrumbs: null,
     items: null,
     filters: null,
-    filtersRequestObject: {},
+    prevFilterState: {},
+    filterRequestObject: {},
     sort: '+name',
   }),
   computed: {
@@ -169,42 +170,98 @@ export default {
     this.getCollection();
   },
   methods: {
-    async getCollection() {
+    async getCollection(filterState) {
       this.loading = true;
       try {
-        /* eslint-disable */
-        const { breadcrumbs, items, props, propTypes, total } = await this.$http.get(
-          `collection/1.0/collections/byalias/${this.alias}/items`,
-          {
-            params: {
-              limit: this.limit,
-              skip: (this.currentPage - 1) * this.limit,
-              sort: this.sort,
-              ...this.filtersRequestObject,
+        if (this.firstTimeLoading || !Object.keys(this.filterRequestObject).length) {
+          /* eslint-disable */
+          const { breadcrumbs, items, props, propTypes, total } = await this.$http.get(
+            `collection/1.0/collections/byalias/${this.alias}/items`,
+            {
+              params: {
+                limit: this.limit,
+                skip: (this.currentPage - 1) * this.limit,
+                sort: this.sort,
+                ...this.filterRequestObject,
+              },
             },
+          );
+          this.breadcrumbs = breadcrumbs;
+          this.items = items;
+          this.total = total;
+          this.filters = propTypes.map(filterGroup => {
+            filterGroup.values = props
+              .find(prop => prop.name === filterGroup.name)
+              .values.map(value => {
+                value.isChecked = false;
+                value.isDisabled = false;
+                return value;
+              });
+            return filterGroup;
+          });
+
+          this.prevFilterState = this.filters.reduce((acc, prop) => {
+            acc[prop.name] = null;
+            return acc;
+          }, {});
+          return;
+        }
+        const { items, props, total } = await this.$http.get(`collection/1.0/collections/byalias/${this.alias}/items`, {
+          params: {
+            limit: this.limit,
+            skip: (this.currentPage - 1) * this.limit,
+            sort: this.sort,
+            ...this.filterRequestObject,
           },
-        );
-        this.breadcrumbs = breadcrumbs;
+        });
         this.items = items;
         this.total = total;
-        this.filters = propTypes.map(filter => {
-          filter.values = props
-            .find(prop => prop.name === filter.name)
-            .values.map(value => {
-              value.isChecked = false;
+        this.filters = this.filters.map(filterGroup => {
+          const [, currentFilterGroupState] = Array.from(Object.entries(filterState)).find(([key, val]) => key === filterGroup.name);
+          const [, prevFilterGroupState] = Array.from(Object.entries(this.prevFilterState)).find(([key, val]) => key === filterGroup.name);
+
+          if (currentFilterGroupState !== prevFilterGroupState) {
+            filterGroup.values.map(value => {
+              value.isDisabled = false;
               return value;
             });
-          return filter;
+            return filterGroup;
+          }
+
+          let newFilterGroupInfo = props.find(prop => prop.name === filterGroup.name);
+          if (!newFilterGroupInfo) {
+            filterGroup.values = filterGroup.values.map(value => {
+              value.count = 0;
+              value.isDisabled = true;
+              return value;
+            });
+            return filterGroup;
+          }
+          filterGroup.values = filterGroup.values.map(it => {
+            const match = newFilterGroupInfo.values.find(prop => prop.value === it.value);
+            if (match) {
+              it.count = match.count;
+              it.isDisabled = false;
+              return it;
+            }
+
+            it.count = 0;
+            it.isDisabled = true;
+            return it;
+          });
+
+          return filterGroup;
         });
+        this.prevFilterState = filterState;
       } finally {
         this.loading = false;
         this.firstTimeLoading = false;
         this.pageWatcherDisabled = false;
       }
     },
-    applyFilters(filters) {
-      this.filtersRequestObject = filters;
-      this.getCollection();
+    applyFilters(filters, filterState) {
+      this.filterRequestObject = filters;
+      this.getCollection(filterState);
     },
   },
 };
