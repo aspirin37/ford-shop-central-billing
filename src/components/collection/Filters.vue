@@ -61,9 +61,6 @@ export default {
     filters: Array,
     loading: Boolean,
   },
-  data: () => ({
-    key: 0,
-  }),
   computed: {
     filterState() {
       return this.filters.reduce((acc, prop) => {
