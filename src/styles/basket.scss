@@ -1,0 +1,35 @@
+header {
+  .basket-wrapper {
+    display: flex;
+    flex: 1;
+    justify-content: flex-end;
+
+    .basket-block {
+      display: flex;
+      align-items: center;
+      color: #fff;
+      padding-right: 16px;
+      margin-left: 16px;
+
+      &:hover {
+        text-decoration: none;
+      }
+
+      &__amount {
+        position: relative;
+
+        span {
+          position: absolute;
+          top: -8px;
+          left: 16px;
+          font-size: 11px;
+          background-color: var(--ford-orange);
+          border-radius: 10px;
+          padding: 1px 4px 1px 4px;
+          text-align: center;
+          min-width: 18px;
+        }
+      }
+    }
+  }
+}

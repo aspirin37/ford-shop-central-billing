@@ -76,19 +76,6 @@
           </div>
         </div>
       </div>
-      <div
-        id="filter-modal"
-        class="filter-modal"
-      >
-        <span>Найдено:</span>
-        <span class="value">10</span>
-        <button
-          class="btn"
-          type="button"
-        >
-          Показать
-        </button>
-      </div>
     </main>
     <div
       v-else
@@ -211,6 +198,7 @@ export default {
           this.filterState = JSON.parse(JSON.stringify(this.prevFilterState));
           return;
         }
+
         const { items, props, total } = await this.$http.get(`collection/1.0/collections/byalias/${this.alias}/items`, {
           params: {
             limit: this.limit,

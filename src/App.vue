@@ -3,8 +3,10 @@
     id="app"
     :class="{'blurred': isBackgroundBlurred }"
   >
-    <app-header />
-    <router-view />
+    <template v-if="user">
+      <app-header />
+      <router-view />
+    </template>
     <sign-out-modal />
   </div>
 </template>
@@ -22,7 +24,7 @@ export default {
     SignOutModal,
   },
   computed: {
-    ...mapState(['isBackgroundBlurred']),
+    ...mapState(['isBackgroundBlurred', 'user']),
   },
   created() {
     this.updateRefreshToken();

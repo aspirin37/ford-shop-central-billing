@@ -12,6 +12,7 @@
         "bootstrap": "^4.3.1",
         "bootstrap-vue": "^2.0.0-rc.25",
         "core-js": "^2.6.5",
+        "lodash.clonedeep": "^4.5.0",
         "lodash.isequal": "^4.5.0",
         "material-design-icons-iconfont": "^5.0.1",
         "vue": "^2.6.10",
@@ -62,6 +63,7 @@
             "max-len": "off",
             "no-param-reassign": "off",
             "no-plusplus": "off",
+            "no-bitwise": "off",
             "prefer-template": "off",
             "vue/component-name-in-template-casing": [
                 "error",

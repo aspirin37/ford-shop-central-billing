@@ -45,9 +45,21 @@
               >
                 Каталог
               </span>
+              <div class="basket-wrapper">
+                <a
+                  href="javascript:void(0);"
+                  class="basket-block"
+                >
+                  <div class="basket-block__price">{{ cart.price | currency }}</div>
+                  <div class="basket-block__amount">
+                    <i class="material-icons">shopping_cart</i>
+                    <span>{{ cart.total }}</span>
+                  </div>
+                </a>
+              </div>
             </div>
           </div>
-          <div class="col-2">
+          <div class="ml-3">
             <div
               class="header__wrapper__profile"
               data-navigation
@@ -193,7 +205,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex';
+import { mapState, mapGetters, mapMutations } from 'vuex';
 
 export default {
   name: 'AppHeader',
@@ -204,6 +216,7 @@ export default {
   }),
   computed: {
     ...mapState(['isMenuShown', 'user']),
+    ...mapGetters(['cart']),
   },
   mounted() {
     document.addEventListener('click', this.outOfHeaderClickHandler);
@@ -224,7 +237,7 @@ export default {
         }
       });
 
-      if (!isNavigationClicked) {
+      if (!isNavigationClicked && this.isMenuShown) {
         this.hideMenu();
         this.selectedSubCollection = null;
       }
@@ -272,7 +285,12 @@ export default {
     },
     logOut() {
       this.setUser(null);
-      localStorage.clear();
+
+      Array.from(Object.keys(localStorage)).forEach(key => {
+        if (!key.includes('cart')) {
+          localStorage.removeItem(key);
+        }
+      });
 
       if (process.env.NODE_ENV !== 'development') {
         window.location.href = '/front-users/sign-in';

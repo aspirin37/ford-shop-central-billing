@@ -90,7 +90,11 @@
           </button>
         </div>
       </div>
-      <button class="btn btn-primary-ford-orange">
+      <button
+        class="btn btn-primary-ford-orange"
+        :disabled="!total"
+        @click="addToCart"
+      >
         <i class="material-icons">shopping_cart</i>
         В корзину
       </button>
@@ -99,6 +103,8 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
+
 export default {
   name: 'CollectionItem',
   props: {
@@ -108,10 +114,16 @@ export default {
     total: 0,
   }),
   methods: {
+    ...mapMutations(['addToCart']),
     decrease() {
       if (this.total > 0) {
         this.total--;
       }
+    },
+    addToCart() {
+      this.item.quantity = this.total;
+      this.$store.commit('addToCart', this.item);
+      this.total = 0;
     },
   },
 };
