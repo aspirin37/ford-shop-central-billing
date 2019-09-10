@@ -1,0 +1,688 @@
+.table-container {
+  overflow-y: auto;
+  // min-height: 65vh;
+  min-height: 300px;
+  margin-bottom: 35px;
+}
+
+.table-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.table-wrapper {
+  margin-top: 30px;
+  margin-bottom: 35px;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+
+  .table-container,
+  .table-footer {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out;
+    transition-property: opacity, visibility;
+  }
+
+  // анимация для появления таблицы
+  .table-fade-out {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  // !анимация для появления таблицы
+
+  &__go,
+  &__back {
+    position: absolute;
+    background-color: #70707038;
+    width: 115px;
+    height: 115px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 2;
+    top: 25vh;
+    user-select: none;
+
+    i {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      margin: auto;
+      height: 46px;
+      font-size: 46px;
+    }
+  }
+
+  &__go {
+    right: -58px;
+    transform: translateX(0);
+    transition: transform 0.3s ease-in-out;
+
+    i {
+      left: 10px;
+    }
+  }
+
+  &__back {
+    left: -58px;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+
+    i {
+      right: 15px;
+    }
+  }
+}
+
+.deactivate-user {
+  position: absolute;
+  display: inline-flex;
+  cursor: pointer;
+  left: 0;
+  margin-top: -2px;
+
+  i {
+    color: var(--ford-orange);
+  }
+
+  &__alert {
+    position: absolute;
+    left: 30px;
+    width: max-content;
+    background-color: #4d616e;
+    color: #fff;
+    padding: 4px 12px 4px 15px;
+    border-radius: 5px;
+    margin-top: -4px;
+    display: flex;
+    align-items: center;
+    visibility: hidden;
+    opacity: 0;
+    z-index: 3;
+    cursor: default;
+    transition: 0.3s ease-in-out;
+    transition-property: opacity visibility;
+
+    &::after {
+      content: '';
+      position: absolute;
+      height: 4px;
+      width: 4px;
+      left: -12px;
+      border: 6px solid transparent;
+      border-right: 6px solid var(--ford-gray-shadow);
+    }
+  }
+
+  &:hover {
+    .deactivate-user__alert {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+}
+
+.table {
+  width: max-content;
+  min-width: 100%;
+
+  &__header {
+    position: relative;
+    display: inline-block;
+    line-height: 20px;
+    user-select: none;
+    transition: color 0.2s ease-in-out;
+  }
+
+  .sortable {
+    &_asc,
+    &_desc {
+      .table__header::after {
+        content: '';
+        height: 4px;
+        width: 4px;
+        border-left: 4px solid transparent;
+        border-right: 4px solid transparent;
+        border-top: 5px solid var(--ford-table-th);
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: -13px;
+        margin: auto 0 auto 5px;
+        transition: border-top 0.2s ease-in-out;
+      }
+    }
+
+    &_desc {
+      .table__header {
+        &::after {
+          transform: rotateZ(180deg);
+        }
+      }
+    }
+
+    &_active {
+      .table__header {
+        color: #4d616e;
+
+        &::after {
+          border-top-color: #4d616e;
+        }
+      }
+    }
+
+    .table__header {
+      cursor: pointer;
+
+      &:hover {
+        color: #4d616e;
+
+        &::after {
+          border-top-color: #4d616e;
+        }
+      }
+    }
+  }
+
+  &__filter {
+    background-color: #fbfbfb;
+    transition: 0.3s ease-in-out;
+    transition-property: opacity, transform, height;
+
+    &__block {
+      position: relative;
+      padding: 0.75rem 5px !important;
+
+      input,
+      select:not([multiple='true']) {
+        position: absolute;
+        top: 0;
+        left: 3px;
+        bottom: 0;
+        max-width: 80%;
+        margin: auto 0;
+      }
+
+      .radio-wrapper {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 3px;
+        justify-content: center;
+      }
+
+      .custom-checkbox {
+        position: absolute;
+        top: 0;
+        left: 3px;
+        max-width: 80%;
+        bottom: 0;
+        display: flex;
+        align-items: center;
+      }
+
+      .custom-control-input {
+        &:checked ~ .custom-control-label::before {
+          border-color: var(--ford-gray-shadow);
+          background-color: var(--ford-gray-shadow);
+        }
+
+        &:focus ~ .custom-control-label::before {
+          box-shadow: 0 0 0 0.1rem #8ea2afad;
+        }
+
+        &:focus:not(:checked) ~ .custom-control-label::before {
+          border-color: #8ea2afad;
+        }
+
+        &:not(:disabled):active ~ .custom-control-label::before {
+          background-color: #94a5b138;
+          border-color: #94a5b138;
+        }
+      }
+    }
+
+    &.blocked {
+      position: absolute;
+      height: 0;
+      overflow: hidden;
+    }
+
+    &.no-active {
+      opacity: 0;
+      transform: translateY(-15%);
+    }
+
+    &.active {
+      opacity: 1;
+      transform: translateY(0%);
+      position: relative;
+    }
+  }
+
+  thead {
+    .success {
+      visibility: hidden;
+      display: flex;
+      align-items: center;
+      background: #e8f6dc;
+      position: absolute;
+      width: 100%;
+      z-index: 1;
+      top: 0;
+      left: 0;
+      height: 0;
+      color: #4b713d;
+      transition: 0.3s ease-in-out;
+      transition-property: height, visibility;
+
+      td {
+        width: 100%;
+        display: flex;
+        align-items: flex-start;
+      }
+
+      &__close {
+        cursor: pointer;
+        margin-right: 25px;
+        user-select: none;
+      }
+
+      &.visible {
+        visibility: visible;
+        height: 66px;
+      }
+    }
+  }
+
+  tr.active {
+    background-color: #f80;
+    color: #fff;
+
+    .deactivate-user i,
+    .table__select-options > i {
+      color: #fff;
+    }
+  }
+}
+
+// для таблиц оформления заказа
+.deal__table.table {
+  .input-group {
+    width: 138px;
+  }
+
+  .form-control {
+    border-right-color: transparent;
+    padding: 0.375rem 0.55rem;
+  }
+
+  .input-group-text {
+    padding: 0.2rem 0.5rem;
+    background-color: transparent;
+    border-left-color: transparent;
+  }
+
+  i {
+    cursor: default;
+    user-select: none;
+    font-size: 18px;
+  }
+
+  td {
+    color: #373a3c;
+    min-width: auto;
+    padding: 5px 0.75rem;
+    vertical-align: middle;
+    text-align: right;
+
+    &.date-td {
+      display: flex;
+      justify-content: center;
+    }
+
+    &.price-td {
+      font-family: 'ArialNew-bold', sans-serif;
+    }
+
+    &.article-td {
+      width: 185px;
+      text-align: left;
+    }
+
+    &.name-td,
+    &.balance {
+      text-align: left;
+    }
+
+    &.delete-td {
+      button {
+        background-color: transparent;
+        border-color: transparent;
+
+        i {
+          cursor: pointer;
+          color: #929292;
+          font-size: 21px;
+          vertical-align: middle;
+          transition: 0.2s ease-in-out;
+        }
+
+        &:hover i {
+          color: var(--ford-gray-shadow);
+        }
+
+        &:focus {
+          outline: none;
+        }
+      }
+    }
+  }
+
+  .arrow-block {
+    margin-left: 14px;
+    display: inline-grid;
+    vertical-align: middle;
+
+    &__top {
+      margin-bottom: 1.5px;
+    }
+
+    &__top,
+    &__bottom {
+      display: flex;
+      cursor: pointer;
+      border-color: transparent;
+      background-color: transparent;
+
+      svg {
+        fill: #929292;
+        transition: fill 0.2s ease-in-out;
+      }
+
+      &:hover {
+        svg {
+          fill: var(--ford-gray-shadow);
+        }
+      }
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+
+  th {
+    padding: 0.75rem;
+    text-align: right;
+
+    &.article-th {
+      widows: 185px;
+      text-align: left;
+    }
+
+    &.name-th {
+      text-align: left;
+    }
+
+    &.date-th {
+      text-align: center;
+    }
+  }
+
+  tfoot {
+    background-color: #fcfcfc;
+
+    td {
+      padding: 15px 0;
+    }
+  }
+
+  .amount-td-enabled input[type='number'] {
+    width: 50px;
+    text-align: right;
+    border-color: transparent;
+  }
+}
+
+// !для таблиц офомрления заказа
+
+// доп. стили для таблицы с опциями
+.interactive.table {
+  .table__header_setings {
+    display: flex;
+    margin: 0 15px;
+    cursor: default;
+    user-select: none;
+  }
+
+  .table__select-options {
+    position: relative;
+    user-select: none;
+
+    i {
+      cursor: pointer;
+    }
+
+    &__wrapper {
+      display: grid;
+      grid-template-columns: 24px 1fr;
+      grid-column-gap: 10px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      color: var(--ford-gray-shadow);
+      transition: color 0.3s ease-in-out;
+
+      &:hover {
+        color: #92a0aa;
+      }
+
+      &:last-of-type {
+        margin-bottom: 0;
+      }
+    }
+
+    &__modal {
+      position: absolute;
+      visibility: visible;
+      opacity: 1;
+      z-index: 1;
+      background-color: #fff;
+      width: 203px;
+      display: flex;
+      flex-direction: column;
+      padding: 10px 15px;
+      border-radius: 5px;
+      transition: 0.2s ease-in-out;
+      transition-property: visibility, opacity;
+
+      &.top {
+        bottom: 30px;
+
+        &::after {
+          top: initial;
+          bottom: -8px;
+          border-top: 7px solid #d9d9d9;
+          border-bottom: none;
+        }
+      }
+
+      &::after {
+        content: '';
+        border: 7px solid transparent;
+        border-bottom: 7px solid #d9d9d9;
+        position: absolute;
+        top: -15px;
+        left: 6px;
+      }
+
+      &.active {
+        border: 1px solid #d9d9d9;
+      }
+
+      &.hidden {
+        visibility: hidden;
+        opacity: 0;
+        padding: 0;
+
+        &::after {
+          content: none;
+        }
+
+        .table__select-options__wrapper {
+          display: none;
+        }
+      }
+    }
+
+    &.order {
+      .table__select-options__modal {
+        width: 266px;
+
+        .table__select-options__wrapper i.custom-size {
+          font-size: 26px;
+        }
+      }
+    }
+  }
+
+  .deactivate-user {
+    left: -15px;
+  }
+}
+
+// !доп. стили для таблицы с опциями
+
+// доп. стили для таблицы прогнозов
+.table.prognosis {
+  tr:last-of-type td {
+    border-bottom: 1px solid #f3f3f3;
+  }
+
+  .prognosis__article {
+    color: #373a3c;
+    line-height: 24px;
+    margin-bottom: 10px;
+  }
+
+  .prognosis__block {
+    &__title {
+      color: #818a91;
+      line-height: 18px;
+      margin-bottom: 12px;
+    }
+
+    &__description {
+      color: #373a3c;
+      line-height: 18px;
+      margin-bottom: 0;
+    }
+  }
+
+  .prognosis__store {
+    display: flex;
+
+    &__item {
+      width: min-content;
+      min-width: 45px;
+      text-align: center;
+
+      &:not(:last-of-type) {
+        margin-right: 20px;
+      }
+
+      &__title {
+        color: #313d46;
+        line-height: 18px;
+      }
+
+      .form-control {
+        padding: 0.375rem 0.2rem;
+        text-align: center;
+      }
+    }
+  }
+}
+
+// !доп. стили для таблицы прогнозов
+
+// доп.стили для таблиц отчетов
+.table.report {
+  thead {
+    th:last-of-type {
+      text-align: right;
+    }
+  }
+
+  tbody {
+    td:last-of-type {
+      text-align: right;
+      padding-right: 0.75rem;
+    }
+
+    tr:last-of-type td {
+      border-bottom: 1px solid #f3f3f3;
+    }
+  }
+}
+
+// !доп.стили для таблиц отчетов
+
+.table-state-block {
+  margin-top: 30px;
+  height: 100%;
+  position: absolute;
+  width: 100%;
+  left: 0;
+  z-index: 3;
+
+  &__empty-alert {
+    color: var(--ford-gray-shadow);
+    font-family: 'ArialNew-bold', sans-serif;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+  }
+
+  &__preloader {
+    opacity: 1;
+    visibility: visible;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.3s ease-in-out;
+    transition-property: opacity, visibility;
+    z-index: 3;
+
+    .spinner-border {
+      top: 30%;
+    }
+
+    // анимация для затухания табличного спиннера
+    &.spinner-fade-in {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    // !анимация для затухания табличного спиннера
+  }
+}
+
+// for ie
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  .table {
+    min-width: 150%;
+  }
+}

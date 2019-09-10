@@ -1,16 +1,16 @@
 <template>
-    <div>
+  <div>
 
-    </div>
+  </div>
 </template>
 
 <script>
 export default {
-    name: 'UserList',
-    components: {},
-    data: () => ({}),
-    computed: {},
-    created() {},
-    methods: {},
+  name: 'Main',
+  components: {},
+  data: () => ({}),
+  computed: {},
+  created() {},
+  methods: {},
 };
 </script>

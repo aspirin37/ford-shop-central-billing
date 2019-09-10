@@ -136,6 +136,8 @@ export default {
   },
   watch: {
     alias() {
+      this.pageWatcherDisabled = true;
+      Object.assign(this.$data, this.$options.data());
       this.getCollection();
     },
     sort() {
@@ -153,14 +155,14 @@ export default {
         return;
       }
 
-      this.getCollection();
+      this.getCollection(true);
     },
   },
   created() {
     this.getCollection();
   },
   methods: {
-    async getCollection() {
+    async getCollection(pageChanged) {
       this.loading = true;
       try {
         if (this.firstTimeLoading || !Object.keys(this.filterRequestObject).length) {
@@ -209,6 +211,10 @@ export default {
         });
         this.items = items;
         this.total = total;
+
+        if (pageChanged) {
+          return;
+        }
         this.filters = this.filters.map(filterGroup => {
           const [, currentFilterGroupState] = Array.from(Object.entries(this.filterState)).find(([key, val]) => key === filterGroup.name);
           const [, prevFilterGroupState] = Array.from(Object.entries(this.prevFilterState)).find(([key, val]) => key === filterGroup.name);
@@ -258,6 +264,8 @@ export default {
       }
     },
     applyFilters(filters) {
+      this.pageWatcherDisabled = true;
+      this.currentPage = 1;
       this.filterRequestObject = filters;
       this.getCollection();
     },

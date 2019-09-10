@@ -164,3 +164,44 @@ button[type='reset'] {
   transition: 0.3s ease-in-out;
   transition-property: background-color, border-color, opacity;
 }
+
+@for $i from 40 to 250 {
+  @if $i % 10 == 0 {
+    .table-cell-width-#{$i} {
+      width: $i + px !important;
+    }
+  }
+}
+
+.deal__table.table {
+  width: 100% !important;
+
+  .table__header {
+    display: table-cell;
+  }
+
+  tfoot td {
+    padding: 15px 0.75rem;
+  }
+
+  td {
+    transition: all 0.1s ease-in;
+  }
+
+  tr.is-single td {
+    padding-top: 1.5rem !important;
+    padding-bottom: 1.5rem !important;
+  }
+}
+
+#product-list .product-element__amount__value,
+.deal__table.table .amount-td-enabled input[type='number'] {
+  text-align: center;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+
+  &:focus {
+    border: 1px solid darken(#ddd, 20%);
+    outline: none;
+  }
+}

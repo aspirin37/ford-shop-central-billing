@@ -330,14 +330,19 @@
         margin-right: 10px;
         font-family: 'ArialNew-bold', sans-serif;
         color: #373a3c;
+        width: 50px;
+        text-align: right;
+        border-color: transparent;
       }
 
       .arrow-block {
         display: inline-grid;
-        grid-row-gap: 13.7px;
+        grid-row-gap: 7px;
 
         &__top,
         &__bottom {
+          background-color: transparent;
+          border-color: transparent;
           display: flex;
           cursor: pointer;
 
@@ -351,9 +356,25 @@
               fill: var(--ford-gray-shadow);
             }
           }
+
+          &:focus {
+            outline: none;
+          }
+
+          &[disabled] {
+          }
         }
       }
     }
+  }
+
+  .amount-block {
+    color: #929292;
+    position: relative;
+    top: 5px;
+    font-size: 14px;
+    text-align: center;
+    margin: 0 auto;
   }
 
   .pagination {

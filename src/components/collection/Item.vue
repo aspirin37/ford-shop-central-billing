@@ -36,9 +36,15 @@
     </div>
     <div class="product-element__buy">
       <div class="product-element__amount">
-        <span class="product-element__amount__value">
-          {{ total }}
-        </span>
+        <input
+          v-model.number="total"
+          class="product-element__amount__value"
+          type="number"
+          :min="min"
+          :max="max"
+          @input="validateInput"
+          @keyup.enter="changeItemsQuantityInCart"
+        >
         <div class="arrow-block">
           <button
             class="arrow-block__top"
@@ -92,18 +98,27 @@
       </div>
       <button
         class="btn btn-primary-ford-orange"
-        :disabled="!total"
-        @click="addToCart"
+        :disabled="!total || total < 0"
+        @click="changeItemsQuantityInCart"
       >
         <i class="material-icons">shopping_cart</i>
         В корзину
       </button>
+
+      <router-link
+        v-if="addedToCart"
+        to="/basket"
+        class="amount-block"
+      >
+        <span class="amount-block__text">Добавлено:</span>
+        <span class="amount-block__value">{{ addedToCart }}</span>
+      </router-link>
     </div>
   </div>
 </template>
 
 <script>
-import { mapMutations } from 'vuex';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'CollectionItem',
@@ -112,18 +127,38 @@ export default {
   },
   data: () => ({
     total: 0,
+    min: 0,
+    max: 99,
   }),
+  computed: {
+    ...mapGetters(['getCartItem']),
+    addedToCart() {
+      const cartItem = this.getCartItem(this.item.guid);
+      return cartItem ? cartItem.quantity : null;
+    },
+  },
   methods: {
-    ...mapMutations(['addToCart']),
     decrease() {
       if (this.total > 0) {
         this.total--;
       }
     },
-    addToCart() {
-      this.item.quantity = this.total;
-      this.$store.commit('addToCart', this.item);
+    changeItemsQuantityInCart() {
+      const payload = {
+        item: this.item,
+        quantity: this.total,
+      };
+      this.$store.commit('changeItemsQuantityInCart', payload);
       this.total = 0;
+    },
+    validateInput() {
+      if (this.total < this.min) {
+        this.total = this.min;
+      }
+
+      if (this.total > this.max) {
+        this.total = this.max;
+      }
     },
   },
 };

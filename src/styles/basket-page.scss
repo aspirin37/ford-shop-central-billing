@@ -1,0 +1,65 @@
+main#basket-page {
+  min-height: calc(100vh - 150px);
+  margin-bottom: 50px;
+
+  .top-block {
+    display: flex;
+    justify-content: space-between;
+    margin: 40px 0;
+
+    &__title__text {
+      color: var(--ford-gray-shadow);
+      font-family: 'ArialNew-bold', sans-serif;
+      line-height: initial;
+      margin-bottom: 0;
+    }
+  }
+
+  .deal {
+    margin-bottom: 31px;
+
+    &__description {
+      text-transform: uppercase;
+      font-size: 24px;
+      font-family: 'ArialNew-bold', sans-serif;
+      line-height: 28px;
+    }
+
+    &__table {
+      margin-top: 15px;
+    }
+  }
+
+  .calculate-block {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 48px;
+
+    &__wrapper {
+      display: grid;
+      width: 278px;
+      border: 1px solid #f3f3f3;
+      padding: 25px;
+
+      .button-correct {
+        width: max-content;
+        justify-self: center;
+      }
+    }
+
+    &__item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+
+      &__title {
+        color: #707070;
+        margin-right: 10px;
+      }
+    }
+  }
+
+  .empty-basket {
+    color: var(--ford-gray-shadow);
+  }
+}

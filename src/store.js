@@ -25,6 +25,12 @@ const store = new Vuex.Store({
     setUser: (state, payload) => {
       state.user = payload;
       localStorage.setItem('user', JSON.stringify(payload));
+
+      if (!payload) {
+        localStorage.removeItem('jwtacc');
+        localStorage.removeItem('refreshToken');
+        localStorage.removeItem('user');
+      }
     },
     setBackgroundBlur: (state, payload) => {
       state.isBackgroundBlurred = payload;
@@ -32,15 +38,21 @@ const store = new Vuex.Store({
     toggleSignOutModal: (state, payload) => {
       state.isSignOutModalShown = payload;
     },
-    addToCart: (state, payload) => {
-      const matchIndex = state.cartItems.findIndex(it => it.guid === payload.guid);
+    changeItemsQuantityInCart: (state, { item, quantity }) => {
+      const matchIndex = state.cartItems.findIndex(it => it.guid === item.guid);
 
       if (~matchIndex) {
-        state.cartItems[matchIndex].quantity += payload.quantity;
+        state.cartItems[matchIndex].quantity += quantity;
       } else {
-        state.cartItems.push(clone(payload));
+        const itemClone = clone(item);
+        itemClone.quantity = quantity;
+        state.cartItems.push(itemClone);
       }
 
+      localStorage[`cart~${state.user.id}`] = JSON.stringify(state.cartItems);
+    },
+    removeItemFromCart: (state, payload) => {
+      state.cartItems = state.cartItems.filter(it => it.guid !== payload.guid);
       localStorage[`cart~${state.user.id}`] = JSON.stringify(state.cartItems);
     },
     initializeCart: (state, payload) => {
@@ -52,18 +64,23 @@ const store = new Vuex.Store({
       let cart = {
         items: state.cartItems,
         total: 0,
-        price: 0,
+        priceBase: 0,
+        priceWithNds: 0,
       };
 
       if (state.cartItems.length) {
         cart = state.cartItems.reduce((acc, it) => {
           acc.total += it.quantity;
-          acc.price += it.price.withNds * it.quantity;
+          acc.priceWithNds += it.price.withNds * it.quantity;
+          acc.priceBase += it.price.base * it.quantity;
           return acc;
         }, cart);
       }
 
       return cart;
+    },
+    getCartItem: state => id => {
+      return state.cartItems.find(it => it.guid === id);
     },
   },
 });

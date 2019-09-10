@@ -11,6 +11,30 @@
   opacity: 0 !important;
 }
 
+.fade-list-enter-active {
+  transition: transform 0.4s;
+}
+
+.fade-list-leave-active {
+  transition: transform 0.4s;
+  position: absolute;
+}
+
+.fade-list-enter,
+.fade-list-leave-to {
+  transition: transform 0.4s;
+  opacity: 0 !important;
+}
+
+.fade-list-leave-active {
+  transition: transform 0.4s;
+  position: absolute;
+}
+
+.fade-list-move {
+  transition: transform 0.4s;
+}
+
 .collapse-enter-active {
   transition: all 0.2s ease-out !important;
 }

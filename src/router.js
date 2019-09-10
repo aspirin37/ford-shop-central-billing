@@ -2,8 +2,8 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import store from './store.js';
 
-import Main from '@/pages/Main.vue';
 import Collection from '@/pages/Collection.vue';
+import Basket from '@/pages/Basket.vue';
 
 Vue.use(Router);
 
@@ -20,19 +20,20 @@ const router = new Router({
   },
   routes: [
     {
-      path: '/',
-      name: 'Main',
-      component: Main,
-    },
-    {
       path: '/collection/:alias',
       name: 'Collection',
       component: Collection,
       props: true,
     },
     {
+      path: '/basket',
+      name: 'Basket',
+      component: Basket,
+      props: true,
+    },
+    {
       path: '*',
-      redirect: '/',
+      redirect: '/collection/prochie_aksessuary_raznoe',
     },
   ],
 });

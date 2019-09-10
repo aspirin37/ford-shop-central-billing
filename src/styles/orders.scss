@@ -1,0 +1,160 @@
+#orders {
+  min-height: calc(100vh - 150px);
+  margin-bottom: 50px;
+
+  .top-block {
+    display: flex;
+    justify-content: space-between;
+    margin: 40px 0;
+
+    &__title__text {
+      color: var(--ford-gray-shadow);
+      font-family: 'ArialNew-bold', sans-serif;
+      line-height: initial;
+      margin-bottom: 0;
+    }
+  }
+
+  .dealer-info {
+    margin-bottom: 50px;
+
+    &__wrapper {
+      display: flex;
+      border: 1px solid #f3f3f3;
+      padding: 44px 0 31px 50px;
+    }
+
+    &__description {
+      display: grid;
+      grid-template-columns: repeat(2, max-content);
+      grid-column-gap: 12.5px;
+      margin-right: 105.5px;
+
+      &__info {
+        display: grid;
+        grid-template-rows: repeat(2, min-content);
+        grid-row-gap: 10px;
+      }
+
+      &__icon-wrapper {
+        width: 43.5px;
+        height: 43.5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background-color: #ffe2b8;
+
+        i {
+          color: var(--ford-orange);
+          font-size: 21px;
+        }
+      }
+
+      &__text {
+        color: #373a3c;
+        font-size: 24px;
+        font-family: 'ArialNew-bold', sans-serif;
+        line-height: 28px;
+      }
+
+      &__mail {
+        font-size: 14px;
+        color: var(--ford-gray-shadow);
+        line-height: 16px;
+      }
+    }
+
+    &__address {
+      width: 314px;
+      margin-right: 93px;
+
+      label {
+        color: var(--ford-gray-shadow);
+        line-height: 18px;
+      }
+
+      select {
+        position: relative;
+        color: #373a3c;
+        line-height: 18px;
+      }
+    }
+
+    &__date {
+      width: 188px;
+
+      .input-group {
+        label {
+          width: 100%;
+          color: var(--ford-gray-shadow);
+          line-height: 18px;
+        }
+
+        input.form-control {
+          width: 105px;
+          flex: initial;
+          border-radius: 5px 0 0 5px;
+          padding: 0.375rem 0.55rem;
+          border-right-color: transparent;
+        }
+
+        span.input-group-text {
+          cursor: default;
+          user-select: none;
+          background-color: #fff;
+          border-left-color: transparent;
+          padding: 0.2rem 0.5rem;
+        }
+
+        i {
+          font-size: 18px;
+        }
+      }
+    }
+  }
+
+  .deal {
+    margin-bottom: 31px;
+
+    &__description {
+      text-transform: uppercase;
+      font-size: 24px;
+      font-family: 'ArialNew-bold', sans-serif;
+      line-height: 28px;
+    }
+
+    &__table {
+      margin-top: 15px;
+    }
+  }
+
+  .calculate-block {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 48px;
+
+    &__wrapper {
+      display: grid;
+      width: 278px;
+      border: 1px solid #f3f3f3;
+      padding: 25px;
+
+      .button-correct {
+        width: max-content;
+        justify-self: center;
+      }
+    }
+
+    &__item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+
+      &__title {
+        color: #707070;
+        margin-right: 10px;
+      }
+    }
+  }
+}

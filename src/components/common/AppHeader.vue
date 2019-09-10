@@ -46,16 +46,16 @@
                 Каталог
               </span>
               <div class="basket-wrapper">
-                <a
-                  href="javascript:void(0);"
+                <router-link
+                  to="/basket"
                   class="basket-block"
                 >
-                  <div class="basket-block__price">{{ cart.price | currency }}</div>
+                  <div class="basket-block__price">{{ cart.priceWithNds | currency }}</div>
                   <div class="basket-block__amount">
                     <i class="material-icons">shopping_cart</i>
                     <span>{{ cart.total }}</span>
                   </div>
-                </a>
+                </router-link>
               </div>
             </div>
           </div>
@@ -285,12 +285,6 @@ export default {
     },
     logOut() {
       this.setUser(null);
-
-      Array.from(Object.keys(localStorage)).forEach(key => {
-        if (!key.includes('cart')) {
-          localStorage.removeItem(key);
-        }
-      });
 
       if (process.env.NODE_ENV !== 'development') {
         window.location.href = '/front-users/sign-in';

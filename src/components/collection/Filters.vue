@@ -4,7 +4,6 @@
       <form id="search-form">
         <div class="input-group">
           <input
-            type="text"
             class="form-control"
             name="search"
             placeholder="Название, артикул"
@@ -143,3 +142,11 @@ export default {
   },
 };
 </script>
+
+<style>
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+</style>

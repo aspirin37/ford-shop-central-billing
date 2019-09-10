@@ -5,7 +5,9 @@
   >
     <template v-if="user">
       <app-header />
-      <router-view />
+      <keep-alive include="Collection">
+        <router-view />
+      </keep-alive>
     </template>
     <sign-out-modal />
   </div>
