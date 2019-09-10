@@ -48,7 +48,8 @@
         <div class="arrow-block">
           <button
             class="arrow-block__top"
-            @click="total++"
+            :disabled="total === max"
+            @click="increase"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -72,6 +73,7 @@
           </button>
           <button
             class="arrow-block__bottom"
+            :disabled="total === min"
             @click="decrease"
           >
             <svg
@@ -138,8 +140,13 @@ export default {
     },
   },
   methods: {
+    increase() {
+      if (this.total < this.max) {
+        this.total++;
+      }
+    },
     decrease() {
-      if (this.total > 0) {
+      if (this.total > this.min) {
         this.total--;
       }
     },

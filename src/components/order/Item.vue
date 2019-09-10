@@ -24,11 +24,13 @@
         <button
           class="arrow-block__top"
           type="button"
+          :disabled="item.quantity === max"
           @click="increase"
         >
           <arrow-top-icon />
         </button>
         <button
+          :disabled="item.quantity === min"
           class="arrow-block__bottom"
           type="button"
           @click="decrease"
@@ -66,20 +68,27 @@ export default {
     isSingle: Boolean,
   },
   data: () => ({
-    min: 1,
+    min: 0,
     max: 99,
   }),
-  computed: {},
-  created() {},
+  destroyed() {
+    if (!this.item.quantity) {
+      this.$store.commit('removeItemFromCart', this.item);
+    }
+  },
   methods: {
     increase() {
+      if (this.item.quantity === this.max) {
+        return;
+      }
+
       this.$store.commit('changeItemsQuantityInCart', {
         item: this.item,
         quantity: 1,
       });
     },
     decrease() {
-      if (this.item.quantity < 2) {
+      if (this.item.quantity === this.min) {
         return;
       }
 
